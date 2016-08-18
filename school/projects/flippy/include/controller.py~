@@ -1,0 +1,84 @@
+import os,sys
+import Tkinter as tk
+import tkMessageBox as tm
+import model 
+import view
+import subprocess as sb
+import fnmatch as fn
+
+from PIL import ImageTk
+import tkFileDialog
+
+class Controller(object):
+  def __init__(self, dir):
+    self.model = model.Model(dir)
+    self.view = view.View(self)
+    self.Stop = False
+    self.dRate = .021
+    self.frame = 0
+    self.len = len(self.model.flipImg)
+    self.loop = False
+    self.view.thread()
+    
+  def stepLt(self):
+    if self.frame != 0: 
+      self.view.display(self.model.flipImg[self.frame], self.dRate)
+      self.view.progBar.step(-(float(100)/self.len))
+      self.frame = self.frame - 1
+    
+  def stepRt(self):
+    if self.frame == self.len: self.frame = 0
+    self.view.display(self.model.flipImg[self.frame], self.dRate)
+    self.view.progBar.step(float(100)/self.len)
+    self.frame = self.frame + 1
+
+  def load(self):
+    while self.frame > 0:
+       self.view.progBar.step(-(float(100)/self.len))
+       self.frame = self.frame - 1   
+    dirname = tkFileDialog.askdirectory()
+    self.model.loadImages(dirname)
+    self.view.display(self.model.flipImg[0], self.dRate) 
+    self.len = len(self.model.flipImg)
+    print self.view.t.isAlive()
+    
+  def loadLogo(self):
+     self.model.loadLogo()
+     self.play()
+
+  def frameRate(self):
+    self.dRate = self.view.frmRate1.get()
+    
+  def play(self):
+   self.Stop = False
+   self.len = len(self.model.flipImg)
+   while self.frame < self.len and not self.Stop: 
+     self.view.display(self.model.flipImg[self.frame], float(self.dRate))
+     self.view.progBar.step(float(100)/self.len)
+     self.frame = self.frame + 1
+      
+   if self.frame == self.len: 
+     self.view.progBar.stop()
+     self.frame = 0
+
+   if self.loop == True:
+     self.play()    
+    
+  def loop(self, event):
+    if self.loop == False:
+      self.loop = True
+      icn = ImageTk.PhotoImage(ImageTk.Image.open("icons/loop.gif"))
+    else: 
+      self.loop = False
+      icn = ImageTk.PhotoImage(ImageTk.Image.open("icons/var_pointer.gif"))
+    event.widget.configure(image=icn)
+    event.widget.image=icn
+    self.view.root.update_idletasks()
+
+  def stop(self):
+    self.Stop = True 
+
+if __name__ == "__main__":
+  c = Controller("Test")
+  print "model is: ", c.model
+  print "view is:  ", c.view
