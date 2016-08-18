@@ -1,0 +1,3 @@
+scp -r ~/cpsc3720/asg3 malcol2@uburmpserve.is-a-linux-user.org:   Sending 
+scp -r malcol2@uburmpserve.is-a-linux-user.org:~/ccpsc3720 ~/Downloads/asg3 recieve
+

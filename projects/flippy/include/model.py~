@@ -1,0 +1,49 @@
+import os, sys
+import Tkinter as tk
+import tkMessageBox as tm
+import fnmatch as fn
+import glob
+import re
+import icons.Logo
+
+images = ['*.gif', '*.png', '*.ppm', '*.jpg', '*.GIF']
+
+class Model(object):
+  def __init__(self, dir):
+    self.dir = dir
+    self.flipImg = []
+    self.activefolder = None
+    self.loadLogo()
+
+  def loadImages(self, dir):
+    self.flipImg = []
+    imgFiles = []
+    self.activefolder = dir
+    files = os.listdir(dir)
+    
+    for image in images:
+      [imgFiles.append(os.path.join(dir, file)) for file in files if fn.fnmatch(file, image)]
+ 
+    sortedImgs = imgFileSort(files)
+    [self.flipImg.append(os.path.join(dir, file)) for file in sortedImgs]
+    
+    for x in range(len(self.flipImg)):
+      print self.flipImg[x]
+  
+  def loadLogo(self):
+    path = os.path.abspath(os.path.dirname(icons.Logo.__file__))
+    self.Logo = []
+    for x in range(73):
+      name = "FLIP-Py" + str(x) + ".png"
+      img = (os.path.join(path, name))
+      self.Logo.append(img)
+     
+    self.flipImg = self.Logo
+
+def imgFileSort(files):
+  sortedImgs = sorted(files, key=lambda x: (int(re.sub('\D','',x)),x)) 
+  return sortedImgs
+  
+if __name__ == "__main__":
+  m = Model(os.getcwd())
+  print "Model instantiated:, ",m
