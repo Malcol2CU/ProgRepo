@@ -5,18 +5,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-class Grid{
+class GridSquare{
   public: 
-    static Grid& getInstance(std::string path){
-      if(instance == NULL) instance = new Grid(path);
-      return instance;
-    }
+    GridSquare();
     
-    Grid(const Grid&) = delete;
-    Grid() = delete;
-    void operator=(const Grid&) = delete;
+    void setPosition(int x, int y);
+    
+    
+    
   private:
-    static Grid instance;
-    Grid(std::string);
+    SDL_Point position;
 };
 #endif
