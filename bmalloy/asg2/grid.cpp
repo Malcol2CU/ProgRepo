@@ -34,8 +34,6 @@ void GridSquare::render(SDL_Renderer* render, int x, int y){
   }
 }
 
-void GridSquare::contains(int x, int y){}
-
 bool GridSquare::operator==(const GridSquare& square){
 	if(square.texture == NULL) return false;
     return type == square.type;

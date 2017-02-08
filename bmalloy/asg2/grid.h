@@ -7,19 +7,24 @@
 
 class GridSquare{
   public: 
+    //Contructors and Deconstructor
     GridSquare();
     GridSquare(const std::string&, SDL_Renderer*, const char);
     ~GridSquare(){free();}
     
-    bool operator==(const GridSquare& square);
-    
+    //Functions
     void setPosition(int, int);
     void loadTexture(const std::string&, SDL_Renderer*, const char);
     void setTextureDimensions(int, int);
     void render(SDL_Renderer*, int, int);
-    void contains(int, int);
     bool notEmpty() const{ return placed;}
     void free();
+    
+    //Overloaded Operators:
+    bool operator==(const GridSquare& square);
+    
+    //Deleted Constructs and Operators
+    GridSquare(const GridSquare& Grid) = delete;
     
   private:
     SDL_Texture* texture;

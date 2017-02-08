@@ -11,48 +11,47 @@ const int HEIGHT = 600;
 const int SIZE = 128;
 const int OFFSET = 35;
 
-
+//Function used to output different errors to output stream
 void logSDLError(std::ostream &out, const std::string &msg){
   out << msg << " error: " << SDL_GetError() << std::endl;
 }
 
+//Inits window and returns pointer to it
 SDL_Window* initWindow( ) {
-  if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
-	throw (std::string("Could not init SDL: ") + SDL_GetError());
-  }
+  if(SDL_Init(SDL_INIT_VIDEO) < 0) logSDLError(std::cout ,"Could not init SDL");
+  
   SDL_Window* window = 
-	SDL_CreateWindow( "Tic-Tac-Toe", SDL_WINDOWPOS_CENTERED, 
+	  SDL_CreateWindow( "Tic-Tac-Toe", SDL_WINDOWPOS_CENTERED, 
        SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN );
-  if( window == NULL ) {
-    throw (std::string("Couldn't make a window: ")+SDL_GetError());
-  }
+  
+  if(window == NULL) logSDLError(std::cout, "Couldn't make a window");
+  
   return window;
 }
 
+//Inits renderer and returns pointer to it
 SDL_Renderer* initRenderer(SDL_Window* window) {
   SDL_Renderer* render = 
     SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  if ( render == 0 ) throw std::string("No Renderer");
+  
+  if ( render == 0 ) logSDLError(std::cout, "No Renderer");
+  
   return render;
 }
 
-SDL_Texture* loadTexture(const std::string &path, SDL_Renderer *render){
-  SDL_Texture *texture = IMG_LoadTexture(render, path.c_str());
-  if ( texture == NULL ){ logSDLError(std::cout, "Couldn'tLoadImage");}
-  return texture;	
-}
-
+//Updates the renderer with new textures
 void update(GridSquare& bg, GridSquare grid[3][3], SDL_Renderer* render){
   SDL_RenderClear(render);
   bg.render(render, 0, 0);
+  
   for(int x = 0; x < 3; x++)
     for(int y = 0; y < 3; y++)
       grid[x][y].render(render, x*200+OFFSET, y*200+OFFSET);
 
   SDL_RenderPresent(render);
-  SDL_Delay(2000);
 }
 
+//Place Function for computer player
 void placeRandom(GridSquare grid[3][3], SDL_Renderer* render){
   std::mt19937 gen;
   gen.seed(std::random_device()());
@@ -80,12 +79,42 @@ void placeRandom(GridSquare grid[3][3], SDL_Renderer* render){
   count++;
 }
 
+//Place function for human player
+void place(GridSquare grid[3][3], SDL_Renderer* render, int x, int y){
+  static char turn = 'x';
+  
+  x = (x/200); y = (y/200);
+  
+  if(count > 9 || grid[x][y].notEmpty() ) return;
+  
+  switch (turn){
+	  case 'x': grid[x][y].loadTexture("images/x.png", render, 'x'); 
+	    turn = 'o';
+    break;
+	  case 'o': grid[x][y].loadTexture("images/o.png", render, 'o'); 
+	    turn = 'x';
+    break;
+  }
+
+  grid[x][y].setTextureDimensions(SIZE,SIZE);
+  count++;  
+}
+
+//Checks if Game is over and returns boolean value
 bool gameOver(GridSquare grid[3][3]){
-  if(grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]) return true;	
+  char lineType;
+  if(grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]){
+     return true;	
+  }
   
   for(int x = 0; x < 3; x++){
-    if(grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2]) return true;
-    if(grid[0][x] == grid[1][x] && grid[1][x] == grid[2][x]) return true;
+    if(grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2]){
+      return true;
+    }
+    
+    if(grid[0][x] == grid[1][x] && grid[1][x] == grid[2][x]){
+      return true;
+    }
   }
   return false;
 }
@@ -96,13 +125,15 @@ int main(){
   SDL_Event event;
   const Uint8* keystate;
   int nKeys=-1;
-  
   std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> window(initWindow(), SDL_DestroyWindow);
   SDL_Renderer* render = initRenderer(window.get());
-  SDL_SetRenderDrawColor(render, 0xFF,0xFF,0xFF,0xFF);
   GridSquare background("images/grid.png", render, 'g'), grid[3][3];
+  
+  //Sets up renderColor to white and sets background grid dimensions
+  SDL_SetRenderDrawColor(render, 0xFF,0xFF,0xFF,0xFF);
   background.setTextureDimensions(600,600);
   
+  //Gameloop
   while(true && !gameOver(grid)){
     keystate = SDL_GetKeyboardState(&nKeys);
     if (keystate[SDL_SCANCODE_ESCAPE]) { break; }
@@ -111,16 +142,19 @@ int main(){
       if (event.type == SDL_QUIT) {
         break;
       }
+      if (event.type == SDL_MOUSEBUTTONDOWN){
+          int x = event.button.x;
+          int y = event.button.y;
+          place(grid, render, x, y);
+      }
     }
     
-    if (SDL_GetTicks() > 17000) break;
-    
-    placeRandom(grid, render);
+    //if (SDL_GetTicks() > 17000) break;
+    //placeRandom(grid, render);
     update(background, grid, render);
   }
-  bool equal = (grid[0][0] == grid[3][3]);
-  std::cout << equal << std::endl;
-  
+
+  //Frees memory
   for(int x = 0; x < 3; x++)
     for(int y = 0; y < 3; y++)
       grid[x][y].free();
