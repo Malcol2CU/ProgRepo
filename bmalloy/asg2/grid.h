@@ -8,19 +8,19 @@
 class GridSquare{
   public: 
     GridSquare();
-    ~GridSquare();
+    GridSquare(const std::string&, SDL_Renderer*);
+    ~GridSquare(){free();}
     
-    void setPosition(int, int, int);
-    void place(const std::string &path, SDL_Renderer *render);
-    void render(SDL_Renderer*);
+    void setPosition(int, int);
+    void loadTexture(const std::string&, SDL_Renderer*);
+    void setTextureDimensions(int, int);
+    void render(SDL_Renderer*, int, int);
     void contains(int, int);
-    
+    void free();
     
   private:
-    SDL_Point start_pos;
     SDL_Texture* texture;
     SDL_Rect rect;
-	int width;
     bool placed;
     std::string type; 
 };
