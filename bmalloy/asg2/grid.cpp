@@ -35,6 +35,10 @@ void GridSquare::render(SDL_Renderer* render, int x, int y){
 
 void GridSquare::contains(int x, int y){}
 
+bool GridSquare::operator==(const GridSquare& square){
+    return texture == square.texture;
+}
+
 void GridSquare::free(){
   if(texture != NULL){
     std::cout << "free" << std::endl;

@@ -11,6 +11,7 @@ const int HEIGHT = 600;
 const int SIZE = 128;
 const int OFFSET = 35;
 
+
 void logSDLError(std::ostream &out, const std::string &msg){
   out << msg << " error: " << SDL_GetError() << std::endl;
 }
@@ -52,18 +53,38 @@ void update(GridSquare& bg, GridSquare grid[3][3], SDL_Renderer* render){
   SDL_Delay(2000);
 }
 
-void place(GridSquare grid[3][3], SDL_Renderer* render){
+void placeRandomX(GridSquare grid[3][3], SDL_Renderer* render){
   std::mt19937 gen;
   gen.seed(std::random_device()());
   std::uniform_int_distribution<std::mt19937::result_type> d(0,2);
-  int x, y;
-  x = d(gen);
-  y = d(gen);
+  int x = d(gen), y = d(gen);
+  
+  while(grid[x][y].notEmpty()){
+    x = d(gen); y = d(gen);
+  }
   std::cout << x << y << std::endl;
   grid[x][y].loadTexture("images/x.png", render);
   grid[x][y].setTextureDimensions(SIZE,SIZE);
 }
 
+void placeRandomO(GridSquare grid[3][3], SDL_Renderer* render){
+  std::mt19937 gen;
+  gen.seed(std::random_device()());
+  std::uniform_int_distribution<std::mt19937::result_type> d(0,2);
+  int x = d(gen), y = d(gen);
+  
+  while(grid[x][y].notEmpty()){
+    x = d(gen); y = d(gen);
+  }
+  std::cout << x << y << std::endl;
+  grid[x][y].loadTexture("images/o.png", render);
+  grid[x][y].setTextureDimensions(SIZE,SIZE);
+}
+
+bool gameOver(GridSquare grid[3][3]){
+  return false;
+  
+}
 int main(){
 	
   //Variable Declarations 
@@ -87,12 +108,17 @@ int main(){
       }
     }
     
-    if (SDL_GetTicks() > 6000) break;
+    if (SDL_GetTicks() > 17000) break;
     
-    place(grid, render);
+    placeRandomX(grid, render);
+    update(background, grid, render);
+    placeRandomO(grid, render);
     update(background, grid, render);
     
   }
+  bool equal = (grid[0][0] == grid[3][3]);
+  std::cout << equal << std::endl;
+  
   for(int x = 0; x < 3; x++)
     for(int y = 0; y < 3; y++)
       grid[x][y].free();
