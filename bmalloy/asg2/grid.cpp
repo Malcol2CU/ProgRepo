@@ -4,9 +4,9 @@ GridSquare::GridSquare(): placed(false){
     texture = NULL;
 }    
 
-GridSquare::GridSquare(const std::string& path, SDL_Renderer* render): placed(false){
+GridSquare::GridSquare(const std::string& path, SDL_Renderer* render, const char t): placed(false){
       texture = NULL;
-      loadTexture(path, render); 
+      loadTexture(path, render, t); 
 }
 
 void GridSquare::setTextureDimensions(int width, int height){
@@ -14,12 +14,13 @@ void GridSquare::setTextureDimensions(int width, int height){
   rect.h = height;
 }
 
-void GridSquare::loadTexture(const std::string &path, SDL_Renderer *render){
+void GridSquare::loadTexture(const std::string &path, SDL_Renderer *render, const char t){
   if(texture != NULL) free();
   
   texture = IMG_LoadTexture(render, path.c_str());
   if ( texture == NULL ){std::cout << "error" << std::endl;}	
   placed = true;
+  type = t;
 }
 
 void GridSquare::render(SDL_Renderer* render, int x, int y){
@@ -36,12 +37,12 @@ void GridSquare::render(SDL_Renderer* render, int x, int y){
 void GridSquare::contains(int x, int y){}
 
 bool GridSquare::operator==(const GridSquare& square){
-    return texture == square.texture;
+	if(square.texture == NULL) return false;
+    return type == square.type;
 }
 
 void GridSquare::free(){
   if(texture != NULL){
-    std::cout << "free" << std::endl;
     SDL_DestroyTexture(texture);
     texture = NULL;
   }

@@ -53,38 +53,43 @@ void update(GridSquare& bg, GridSquare grid[3][3], SDL_Renderer* render){
   SDL_Delay(2000);
 }
 
-void placeRandomX(GridSquare grid[3][3], SDL_Renderer* render){
+void placeRandom(GridSquare grid[3][3], SDL_Renderer* render){
   std::mt19937 gen;
   gen.seed(std::random_device()());
   std::uniform_int_distribution<std::mt19937::result_type> d(0,2);
+  static char turn = 'x';
+  static int count = 1;
   int x = d(gen), y = d(gen);
+  
+  if(count > 9 ) return;
   
   while(grid[x][y].notEmpty()){
     x = d(gen); y = d(gen);
   }
-  std::cout << x << y << std::endl;
-  grid[x][y].loadTexture("images/x.png", render);
-  grid[x][y].setTextureDimensions(SIZE,SIZE);
-}
+  
+  switch (turn){
+	case 'x': grid[x][y].loadTexture("images/x.png", render, 'x'); 
+	  turn = 'o';
+	  break;
+	case 'o': grid[x][y].loadTexture("images/o.png", render, 'o'); 
+	  turn = 'x';
+	  break;
+  }
 
-void placeRandomO(GridSquare grid[3][3], SDL_Renderer* render){
-  std::mt19937 gen;
-  gen.seed(std::random_device()());
-  std::uniform_int_distribution<std::mt19937::result_type> d(0,2);
-  int x = d(gen), y = d(gen);
-  
-  while(grid[x][y].notEmpty()){
-    x = d(gen); y = d(gen);
-  }
-  std::cout << x << y << std::endl;
-  grid[x][y].loadTexture("images/o.png", render);
   grid[x][y].setTextureDimensions(SIZE,SIZE);
+  count++;
 }
 
 bool gameOver(GridSquare grid[3][3]){
-  return false;
+  if(grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]) return true;	
   
+  for(int x = 0; x < 3; x++){
+    if(grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2]) return true;
+    if(grid[0][x] == grid[1][x] && grid[1][x] == grid[2][x]) return true;
+  }
+  return false;
 }
+
 int main(){
 	
   //Variable Declarations 
@@ -95,10 +100,10 @@ int main(){
   std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> window(initWindow(), SDL_DestroyWindow);
   SDL_Renderer* render = initRenderer(window.get());
   SDL_SetRenderDrawColor(render, 0xFF,0xFF,0xFF,0xFF);
-  GridSquare background("images/grid.png", render), grid[3][3];
+  GridSquare background("images/grid.png", render, 'g'), grid[3][3];
   background.setTextureDimensions(600,600);
   
-  while(true){
+  while(true && !gameOver(grid)){
     keystate = SDL_GetKeyboardState(&nKeys);
     if (keystate[SDL_SCANCODE_ESCAPE]) { break; }
 
@@ -110,11 +115,8 @@ int main(){
     
     if (SDL_GetTicks() > 17000) break;
     
-    placeRandomX(grid, render);
+    placeRandom(grid, render);
     update(background, grid, render);
-    placeRandomO(grid, render);
-    update(background, grid, render);
-    
   }
   bool equal = (grid[0][0] == grid[3][3]);
   std::cout << equal << std::endl;

@@ -8,13 +8,13 @@
 class GridSquare{
   public: 
     GridSquare();
-    GridSquare(const std::string&, SDL_Renderer*);
+    GridSquare(const std::string&, SDL_Renderer*, const char);
     ~GridSquare(){free();}
     
     bool operator==(const GridSquare& square);
     
     void setPosition(int, int);
-    void loadTexture(const std::string&, SDL_Renderer*);
+    void loadTexture(const std::string&, SDL_Renderer*, const char);
     void setTextureDimensions(int, int);
     void render(SDL_Renderer*, int, int);
     void contains(int, int);
@@ -25,6 +25,6 @@ class GridSquare{
     SDL_Texture* texture;
     SDL_Rect rect;
     bool placed;
-    std::string type; 
+    char type; 
 };
 #endif
