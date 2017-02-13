@@ -18,7 +18,7 @@ class TicTacToe{
     void place(int, int);
     void placeRandom();
     bool gameOver();
-    void placeBar();
+    void placeBar(std::string);
     
   private:
     void logSDLError(std::ostream &out, const std::string &msg);

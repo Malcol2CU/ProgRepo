@@ -73,40 +73,8 @@ void TicTacToe::place(int x, int y){
   grid[x][y].setTextureDimensions(SIZE,SIZE); 
 }
 
-void TicTacToe:placeBar(std::string p){
-    if(bar != NULL) free();
-  
-  bar = IMG_LoadTexture(render, p.c_str());
-  if ( bar == NULL ){std::cout << "error" << std::endl;}	
-  
-  static float x = 0;
-  static float y = 0;
-  static SDL_Rect dstrect = {0, 0, 32, 32};
+void TicTacToe::placeBar(std::string p){
 
-  static unsigned int remainder = 0u; // ***
-  static unsigned int prevTicks = SDL_GetTicks();
-  unsigned int currentTicks = SDL_GetTicks();
-  unsigned int elapsedTicks = currentTicks - prevTicks + remainder; // ***
-
-  //if( elapsedTicks < DT ) return;
-
-  // Generate a frame:
- // if ( makeVideo ) frameGen.makeFrame();
-
-  float dx = X_VEL * DT * 0.001;
-  x += dx;
-  float dy = Y_VEL * DT * 0.001;
-  y += dy;
-  //x = clamp(x,0.f,WIDTH-dstrect.w);
-  //y = clamp(y,0.f,HEIGHT-dstrect.h);
-
-  prevTicks = currentTicks;
-  remainder = elapsedTicks - DT; // ***
-
-  dstrect.x = x;
-  dstrect.y = y;
-  
-   SDL_RenderCopy(render, bar, NULL, &dstrect);
   
 }
 
@@ -132,6 +100,7 @@ void TicTacToe::placeRandom(){
 
   grid[x][y].setTextureDimensions(SIZE,SIZE);
   placed++;
+  SDL_Delay( 1000 ); 
 }
 
 bool TicTacToe::gameOver(){

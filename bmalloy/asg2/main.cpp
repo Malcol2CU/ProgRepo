@@ -23,17 +23,18 @@ int main(){
       if (event.type == SDL_QUIT) {
         break;
       }
-      if (event.type == SDL_MOUSEBUTTONDOWN){
+      /*if (event.type == SDL_MOUSEBUTTONDOWN){
           int x = event.button.x;
           int y = event.button.y;
           game.place(x, y);
           if(game.gameOver()) break;
-      }
+      }*/
     }
     
     //if (SDL_GetTicks() > 17000) break;
-    //placeRandom(grid, render);
+    game.placeRandom();
     game.update();
+    if(game.gameOver()) break;
   }
 
   return 0;
