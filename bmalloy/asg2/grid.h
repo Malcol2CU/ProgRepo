@@ -19,6 +19,7 @@ class GridSquare{
     void render(SDL_Renderer*, int, int);
     bool notEmpty() const{ return placed;}
     void free();
+    void init(){GridSquare();}
     
     //Overloaded Operators:
     bool operator==(const GridSquare& square);
