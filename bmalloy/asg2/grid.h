@@ -18,6 +18,7 @@ class GridSquare{
     void setTextureDimensions(int, int);
     void render(SDL_Renderer*, int, int);
     bool notEmpty() const{ return placed;}
+    char getType() const{ return type;}
     void free();
     void init(){GridSquare();}
     
@@ -25,7 +26,8 @@ class GridSquare{
     bool operator==(const GridSquare& square);
     
     //Deleted Constructs and Operators
-    GridSquare(const GridSquare& Grid) = delete;
+    GridSquare(const GridSquare&) = delete;
+    GridSquare operator=(const GridSquare&) = delete;
     
   private:
     SDL_Texture* texture;

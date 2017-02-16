@@ -1,11 +1,10 @@
 #include "grid.h"
 
-GridSquare::GridSquare(): placed(false){
-    texture = NULL;
-}    
+GridSquare::GridSquare():texture(NULL),rect(), placed(false), type(' ') {}    
 
-GridSquare::GridSquare(const std::string& path, SDL_Renderer* render, const char t): placed(false){
-      texture = NULL;
+GridSquare::GridSquare(const std::string& path, SDL_Renderer* render, const char t):texture(NULL), rect(),placed(false),type(' '){
+      rect.x = 0;
+      rect.y = 0;
       loadTexture(path, render, t); 
 }
 

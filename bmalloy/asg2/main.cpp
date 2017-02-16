@@ -15,7 +15,7 @@ int main(){
   game.init();  
 
   //Gameloop
-  while(true){
+  while(!game.gameOver()){
     keystate = SDL_GetKeyboardState(&nKeys);
     if (keystate[SDL_SCANCODE_ESCAPE]) { break; }
 
@@ -23,19 +23,21 @@ int main(){
       if (event.type == SDL_QUIT) {
         break;
       }
-      /*if (event.type == SDL_MOUSEBUTTONDOWN){
+      /*if (event.type == SDL_MOUSEBUTTONDOWN && !game.gameOver()){
           int x = event.button.x;
           int y = event.button.y;
           game.place(x, y);
-          if(game.gameOver()) break;
       }*/
     }
     
-    //if (SDL_GetTicks() > 17000) break;
     game.placeRandom();
     game.update();
-    if(game.gameOver()) break;
+    while(game.gameOver()) {
+      if(game.animate()) break;
+      game.update();
+    }
   }
 
+  SDL_Delay( 2000 ); 
   return 0;
 }
