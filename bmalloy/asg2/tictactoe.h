@@ -33,5 +33,6 @@ class TicTacToe{
     SDL_Texture* bar, *winner;
     SDL_Rect barRect, winRect;
     FrameGenerator frameGen;
+    bool over;
 };
 #endif

@@ -30,8 +30,9 @@ int main(){
       }*/
     }
     
-    game.placeRandom();
     game.update();
+    game.placeRandom();
+    
     while(game.gameOver()) {
       if(game.animate()) break;
       game.update();

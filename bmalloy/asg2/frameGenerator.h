@@ -14,6 +14,10 @@ public:
     rend(r), window(win),
     frameCount(0) 
   {}
+  ~FrameGenerator(){
+    SDL_DestroyRenderer(rend);
+    SDL_DestroyWindow(window);
+    }
   void set(SDL_Renderer* const r, SDL_Window* const win){
     rend = r;    window = win;
   }

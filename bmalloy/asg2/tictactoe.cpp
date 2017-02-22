@@ -11,7 +11,7 @@ const float Y_VEL = 150.0;
 const unsigned int DT = 17u; // ***
 
 TicTacToe::TicTacToe():window(NULL), render(0), placed(0), background(),
-   bar(NULL), winner(NULL),barRect(), winRect(), frameGen(){
+   bar(NULL), winner(NULL),barRect(), winRect(), frameGen(), over(false){
   if(SDL_Init(SDL_INIT_VIDEO) < 0) 
     logSDLError(std::cout ,"Could not init SDL");
 
@@ -25,6 +25,7 @@ TicTacToe::~TicTacToe(){
     for(int y = 0; y < 3; y++)
       grid[x][y].free();
 
+  std::cout << "destruct" ;
   background.free();
   SDL_DestroyTexture(bar);
   SDL_DestroyTexture(winner);
@@ -127,34 +128,35 @@ void TicTacToe::placeRandom(){
 }
 
 bool TicTacToe::gameOver(){
+  if(over) return true;
   if(placed >= 5){
     if(grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]){
       placeBar("images/ldline.png", 0, 0, 600, 600, grid[0][0].getType());
-      return true;	
+      over = true;	
     }
     
     if(grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]){
       placeBar("images/rdline.png", 0, 0, 600, 600, grid[0][2].getType());
-      return true;	
+      over = true;	
     }
   
     for(int x = 0; x < 3; x++){
       if(grid[x][0] == grid[x][1] && grid[x][1] == grid[x][2]){
         placeBar("images/vline.png", x, 0, 200, 600, grid[x][0].getType());
-        return true;
+        over = true;
       }
     
       if(grid[0][x] == grid[1][x] && grid[1][x] == grid[2][x]){
         placeBar("images/hline.png", 0 , x, 600,200, grid[0][x].getType());
-        return true;
+        over = true;
       }
     }
   }
   if(placed == 9){
     winner = IMG_LoadTexture(render, "images/catwin.png");
-    return true;
+    over = true;
   }
-  return false;
+  return over;
 }
 
 bool TicTacToe::animate() {
