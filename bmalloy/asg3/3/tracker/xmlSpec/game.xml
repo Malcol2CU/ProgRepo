@@ -1,0 +1,108 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<screenTitle>Robot Animation</screenTitle>
+<maxStringSize>50</maxStringSize>
+
+<frameCapOn>true</frameCapOn>
+<period>17</period>
+
+<maxFrames>300</maxFrames>
+<username>malcol2</username>
+
+<view>
+  <width>850</width>
+  <height>600</height>
+</view>
+
+<world>
+  <width>2500</width>
+  <height>950</height>
+</world>
+
+
+<layer1>
+  <file>images/layer1.png</file>
+  <factor>1</factor>
+  <transparency>false</transparency>
+</layer1>
+
+<layer2>
+  <file>images/layer2.png</file>
+  <factor>2</factor>
+  <transparency>false</transparency>
+</layer2>
+
+<layer3>
+  <file>images/layer3.png</file>
+  <factor>6</factor>
+  <transparency>false</transparency>
+</layer3>
+
+<layer4>
+  <file>images/layer4.png</file>
+  <factor>8</factor>
+  <transparency>false</transparency>
+</layer4>
+
+<layer5>
+  <file>images/layer5.png</file>
+  <factor>10</factor>
+  <transparency>false</transparency>
+</layer5>
+
+<layer6>
+  <file>images/layer6.png</file>
+  <factor>12</factor>
+  <transparency>false</transparency>
+</layer6>
+
+<font name="font">
+  <file>fonts/arial.ttf</file>
+  <size>24</size>
+  <red>255</red>
+  <green>255</green>
+  <blue>255</blue>
+  <alpha>0</alpha>
+</font>
+
+<rock>
+  <file>images/rocks2.png</file>
+  <startLoc x="0" y="0"/>
+  <frames>8</frames>
+  <frameInterval>55</frameInterval>
+  <speedX>200</speedX>
+  <speedY>-100</speedY>
+  <transparency>true</transparency>
+</rock>
+
+<runR>
+  <file>images/runR.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>16</frames>
+  <frameInterval>55</frameInterval>
+  <speedX>200</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</runR>
+
+<runL>
+  <file>images/runL.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>13</frames>
+  <frameInterval>55</frameInterval>
+  <speedX>200</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</runL>
+
+<greenorb>
+  <file>images/greenball.bmp</file>
+  <startLoc x="320" y="240"/>
+  <speedX>175</speedX>
+  <speedY>175</speedY>
+  <transparency>true</transparency>
+</greenorb>
+
+</GameData>
