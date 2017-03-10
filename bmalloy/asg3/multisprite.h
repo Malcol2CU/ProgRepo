@@ -1,25 +1,25 @@
-#ifndef TWOWAYSPRITE__H
-#define TWOWAYSPRITE__H
+#ifndef MULTISPRITE__H
+#define MULTISPRITE__H
 #include <string>
 #include <vector>
 #include <cmath>
 #include "drawable.h"
 
-class TwoWaySprite : public Drawable {
+class MultiSprite : public Drawable {
 public:
-  TwoWaySprite( const std::string&, const std::string&);
-  TwoWaySprite(const TwoWaySprite&);
+  MultiSprite(const std::string&);
+  MultiSprite(const MultiSprite&);
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
+  virtual int getHeight() const {return frameHeight;}
 
+  int getF() const { return currentFrame;}
 protected:
-  std::vector<Frame *> frames;
-  const std::string rframes;
-  const std::string lframes;
+  const std::vector<Frame *> frames;
 
   unsigned currentFrame;
   unsigned numberOfFrames;

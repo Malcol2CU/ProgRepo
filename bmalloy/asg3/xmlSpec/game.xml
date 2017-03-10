@@ -8,6 +8,7 @@
 <frameCapOn>true</frameCapOn>
 <period>17</period>
 
+<frameCount>100</frameCount>
 <maxFrames>300</maxFrames>
 <username>malcol2</username>
 
@@ -81,7 +82,7 @@
   <file>images/runR.png</file>
   <startLoc x="1" y="700"/>
   <frames>16</frames>
-  <frameInterval>55</frameInterval>
+  <frameInterval>20</frameInterval>
   <speedX>200</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
@@ -91,11 +92,21 @@
   <file>images/runL.png</file>
   <startLoc x="1" y="700"/>
   <frames>13</frames>
-  <frameInterval>55</frameInterval>
+  <frameInterval>20</frameInterval>
   <speedX>200</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </runL>
+
+<exp>
+  <file>images/explosion.png</file>
+  <startLoc x="1250" y="700"/>
+  <frames>10</frames>
+  <frameInterval>30</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</exp>
 
 <greenorb>
   <file>images/greenball.bmp</file>

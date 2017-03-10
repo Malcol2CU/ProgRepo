@@ -5,6 +5,7 @@
 #include "clock.h"
 #include "world.h"
 #include "viewport.h"
+#include "frameGenerator.h"
 
 class Engine {
 public:
@@ -17,7 +18,6 @@ private:
   const RenderContext* rc;
   const IOmod& io;
   Clock& clock;
-
   SDL_Renderer * const renderer;
   World layer6;
   World layer5;
@@ -33,7 +33,7 @@ private:
   bool makeVideo;
 
   void draw() const;
-  bool update(Uint32);
+  void update(Uint32);
 
   Engine(const Engine&) = delete;
   Engine& operator=(const Engine&) = delete;

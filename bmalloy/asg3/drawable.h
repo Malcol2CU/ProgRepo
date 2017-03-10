@@ -22,11 +22,14 @@ public:
 
   virtual void draw() const = 0;
   virtual void update(Uint32 ticks) = 0;
-
+  virtual int getHeight() const = 0;
+  virtual int getF() const = 0;
+  
   const std::string& getName() const { return name; }
   void setName(const std::string& n) { name = n;    }
 
   virtual const Frame* getFrame() const = 0;
+
 
   float getX() const  { return position[0]; }
   void  setX(float x) { position[0] = x;    }

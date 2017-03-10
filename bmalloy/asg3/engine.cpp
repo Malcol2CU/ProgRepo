@@ -7,7 +7,7 @@
 #include "twowaysprite.h"
 #include "gamedata.h"
 #include "engine.h"
-#include "frameGenerator.h"
+
 
 Engine::~Engine() { 
   std::cout << "Terminating program" << std::endl;
@@ -63,7 +63,7 @@ void Engine::draw() const {
   SDL_RenderPresent(renderer);
 }
 
-bool Engine::update(Uint32 ticks) {
+void Engine::update(Uint32 ticks) {
   for(auto* s : sprites) s->update(ticks);
   layer6.update();
   layer5.update();
@@ -72,9 +72,6 @@ bool Engine::update(Uint32 ticks) {
   layer2.update();
   layer1.update();
   viewport.update(); // always update viewport last
-  if (sprites[0]->getX() == sprites[1]->getX() || sprites[0]->getY() == sprites[1]->getY())
-	return true;
-  return false;
 }
 
 void Engine::switchSprite(){
@@ -85,7 +82,7 @@ void Engine::switchSprite(){
 void Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
-  bool done = false;
+  bool done = false, exp = false;
   Uint32 ticks = clock.getElapsedTicks();
   FrameGenerator frameGen;
 
@@ -122,9 +119,25 @@ void Engine::play() {
     if ( ticks > 0 ) {
       clock.incrFrame();
       draw();
-      done = update(ticks);
+      update(ticks);
       if ( makeVideo ) {
         frameGen.makeFrame();
+      }
+      if (!exp){
+		int bot = sprites[0]->getY() - sprites[0]->getHeight();
+		if (int(sprites[1]->getY()) >= bot){
+			std::cout << "heheh" << std::endl;
+			sprites.clear();
+			sprites.push_back(new MultiSprite("exp"));
+			exp = true;
+		}
+	  }
+	  else{
+		int frame = sprites[0]->getF(); 
+		std::cout << frame << " ";
+		if(frame == 9){
+			 SDL_Delay(7000);
+			 break;}
       }
     }
   }

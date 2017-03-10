@@ -3,7 +3,6 @@
 #include <string>
 #include <sstream>
 #include "clock.h"
-#include "gamedata.h"
 #include "ioMod.h"
 
 Clock& Clock::getInstance() {
@@ -70,12 +69,22 @@ int Clock::getFps() const {
   else return 0;
 }
 
+std::deque<unsigned int> deq;
 int Clock::getAvgFps() const { 
-  if ( getSeconds() > 0 ) return (frames)/Gamedata::getInstance().getXmlInt("maxFrames");
+  int sum = 0;
+
+  if ( getSeconds() > 0 ){ 
+	  deq.push_front(frames/getSeconds());
+	  if (deq.size() > limit) deq.pop_back();
+	  
+	  for (auto const& add: deq) sum+= add;
+  }
+  
   else if ( getTicks() > 5000 and getFrames() == 0 ) {
     throw std::string("Can't getFps if you don't increment the frames");
   }
-  return 0;
+  
+  return sum/limit;
 }
 
 void Clock::incrFrame() { 

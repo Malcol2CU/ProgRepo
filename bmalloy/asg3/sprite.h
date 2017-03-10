@@ -13,6 +13,8 @@ public:
   virtual const Frame* getFrame() const { return frame; }
   virtual void draw() const;
   virtual void update(Uint32 ticks);
+  virtual int getHeight() const {return frameHeight;}
+  virtual int getF() const { return 0;}
 private:
   const Frame * frame;
   int worldWidth;
