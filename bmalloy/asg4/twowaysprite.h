@@ -15,9 +15,11 @@ public:
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
-  
   virtual int getHeight() const {return frameHeight;}
   virtual int getF() const { return currentFrame;}
+  virtual void moveLeft(Uint32 ticks);
+  virtual void moveRight(Uint32 ticks);
+  
 protected:
   std::vector<Frame *> frames;
   const std::string rframes;
@@ -31,7 +33,7 @@ protected:
   int worldHeight;
   int frameWidth;
   int frameHeight;
-
+  bool foward;
   void advanceFrame(Uint32 ticks);
 };
 #endif

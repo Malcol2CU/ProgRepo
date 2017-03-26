@@ -33,7 +33,8 @@ Engine::Engine() :
 
   makeVideo( false )
 {
-  sprites.push_back( new TwoWaySprite("runR", "runL") );
+  Drawable * p = new TwoWaySprite("runR", "runL");
+  player = new Player(p);
   sprites.push_back(new MultiSprite("rock"));
   switchSprite();
   std::cout << "Loading complete" << std::endl;
@@ -56,9 +57,8 @@ void Engine::draw() const {
   strm << "fps: " << clock.getFps() << "\nAvg. fps:" << clock.getAvgFps();
   io.writeText(strm.str(), 30, 60);
 
-
   for(auto* s : sprites) s->draw();
-
+  player->draw();
   viewport.draw();
   SDL_RenderPresent(renderer);
 }
@@ -76,13 +76,13 @@ void Engine::update(Uint32 ticks) {
 
 void Engine::switchSprite(){
   currentSprite = ++currentSprite % sprites.size();
-  Viewport::getInstance().setObjectToTrack(sprites[currentSprite]);
+  Viewport::getInstance().setObjectToTrack(player->getSprite());
 }
 
 void Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
-  bool done = false, exp = false;
+  bool done = false;
   Uint32 ticks = clock.getElapsedTicks();
   FrameGenerator frameGen;
 
@@ -105,6 +105,16 @@ void Engine::play() {
         if ( keystate[SDL_SCANCODE_T] ) {
           switchSprite();
         }
+        if ( keystate[SDL_SCANCODE_D] ) {
+          std::cout<< "moveRight" << std::endl;
+          ticks +=1;
+          player->moveRight(ticks);
+        }
+        if ( keystate[SDL_SCANCODE_A] ) {
+          std::cout<< "moveLeft" << std::endl;
+           ticks +=1;
+          player->moveLeft(ticks);
+        }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;
           makeVideo = true;
@@ -115,37 +125,13 @@ void Engine::play() {
         }
       }
     }
-    ticks = clock.getElapsedTicks();
+   ticks = clock.getElapsedTicks();
     if ( ticks > 0 ) {
       clock.incrFrame();
       draw();
       update(ticks);
       if ( makeVideo ) {
         frameGen.makeFrame();
-      }
-      if (!exp){
-		int botYMax = sprites[0]->getY() - sprites[0]->getHeight();
-		int botYMin = sprites[0]->getY() + sprites[0]->getHeight();
-		int botXMax = sprites[0]->getX() - sprites[0]->getHeight();
-		int botXMin = sprites[0]->getX() + sprites[0]->getHeight();
-
-		if (int(sprites[1]->getY()) >= botYMax  && int(sprites[1]->getY()) <= botYMin
-				&& int(sprites[1]->getX()) >= botXMax  && int(sprites[1]->getX()) <= botXMin ){
-
-			sprites.clear();
-			sprites.push_back(new MultiSprite("exp"));
-			exp = true;
-		}
-	  }
-	  else{
-		int frame = sprites[0]->getF(); 
-		if(frame == 9){
-                   if ( makeVideo ) {
-                      frameGen.makeFrame();
-					  frameGen.makeFrame();
-     				}
-			 SDL_Delay(5000);
-			 break;}
       }
     }
   }

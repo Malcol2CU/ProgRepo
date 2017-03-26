@@ -24,6 +24,8 @@ public:
   virtual void update(Uint32 ticks) = 0;
   virtual int getHeight() const = 0;
   virtual int getF() const = 0;
+  virtual void moveLeft(Uint32 ticks) = 0;
+  virtual void moveRight(Uint32 ticks) = 0;
   
   const std::string& getName() const { return name; }
   void setName(const std::string& n) { name = n;    }

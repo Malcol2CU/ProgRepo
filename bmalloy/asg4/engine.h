@@ -6,6 +6,7 @@
 #include "world.h"
 #include "viewport.h"
 #include "frameGenerator.h"
+#include "player.h"
 
 class Engine {
 public:
@@ -26,6 +27,7 @@ private:
   World layer2;
   World layer1;
   Viewport& viewport;
+  Player* player;
 
   std::vector<Drawable*> sprites;
 

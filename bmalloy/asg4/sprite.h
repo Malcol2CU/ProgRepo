@@ -15,6 +15,8 @@ public:
   virtual void update(Uint32 ticks);
   virtual int getHeight() const {return frameHeight;}
   virtual int getF() const { return 0;}
+  virtual void moveLeft(Uint32 ticks){std::cout << ticks;}
+  virtual void moveRight(Uint32 ticks){std::cout << ticks;}
 private:
   const Frame * frame;
   int worldWidth;

@@ -28,7 +28,8 @@ TwoWaySprite::TwoWaySprite( const std::string& name, const std::string& name2) :
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   frameWidth(frames[0]->getWidth()),
-  frameHeight(frames[0]->getHeight())
+  frameHeight(frames[0]->getHeight()),
+  foward(true)
 { }
 
 TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
@@ -41,7 +42,8 @@ TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   worldWidth( s.worldWidth ),
   worldHeight( s.worldHeight ),
   frameWidth( s.frameWidth ),
-  frameHeight( s.frameHeight )
+  frameHeight( s.frameHeight ),
+  foward(true)
   { }
 
 void TwoWaySprite::draw() const { 
@@ -74,5 +76,32 @@ void TwoWaySprite::update(Uint32 ticks) {
     frameInterval = Gamedata::getInstance().getXmlInt(lframes+"/frameInterval");
     currentFrame = 0;
   }  
-
 }
+void TwoWaySprite::moveLeft(Uint32 ticks){
+  advanceFrame(ticks);
+  std::cout << ticks << std::endl;
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  setPosition(getPosition() + incr);
+  if(foward){
+    setVelocityX( -fabs( getVelocityX() ) );
+    frames = RenderContext::getInstance()->getFrames(lframes);
+    numberOfFrames = Gamedata::getInstance().getXmlInt(lframes+"/frames"); 
+    frameInterval = Gamedata::getInstance().getXmlInt(lframes+"/frameInterval");
+    currentFrame = 0;
+    foward = false;
+    }
+  }
+void TwoWaySprite::moveRight(Uint32 ticks){
+  advanceFrame(ticks);
+    std::cout << ticks << std::endl;
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  setPosition(getPosition() + incr);
+  if(!foward){
+    setVelocityX( fabs( getVelocityX() ) );
+    frames = RenderContext::getInstance()->getFrames(rframes);
+    numberOfFrames = Gamedata::getInstance().getXmlInt(rframes+"/frames"); 
+    frameInterval = Gamedata::getInstance().getXmlInt(rframes+"/frameInterval");
+    currentFrame = 0;
+    foward = true;
+    }
+  }

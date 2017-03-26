@@ -18,6 +18,8 @@ public:
   virtual int getHeight() const {return frameHeight;}
 
   int getF() const { return currentFrame;}
+  virtual void moveLeft(Uint32 ticks){std::cout << ticks;}
+  virtual void moveRight(Uint32 ticks){std::cout << ticks;}
 protected:
   const std::vector<Frame *> frames;
 
