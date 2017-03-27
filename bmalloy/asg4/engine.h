@@ -30,10 +30,11 @@ private:
   Player* player;
 
   std::vector<Drawable*> sprites;
-
+  Drawable *attack;
+  
   int currentSprite;
   bool makeVideo;
-
+  bool attacking;
   void draw() const;
   void update(Uint32);
 

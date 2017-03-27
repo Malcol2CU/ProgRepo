@@ -29,12 +29,16 @@ Engine::Engine() :
   layer1("layer1", Gamedata::getInstance().getXmlInt("layer1/factor") ),
   viewport( Viewport::getInstance() ),
   sprites(),
+  attack(new MultiSprite("spinAttack")),
   currentSprite(-1),
 
-  makeVideo( false )
+  makeVideo( false ),
+  attacking ( false )
 {
   Drawable * p = new TwoWaySprite("runR", "runL");
-  player = new Player(p);
+  std::vector<Drawable*> attacks;
+  attacks.push_back(new MultiSprite("spinAttack"));
+  player = new Player(p, attacks);
   sprites.push_back(new MultiSprite("rock"));
   switchSprite();
   std::cout << "Loading complete" << std::endl;
@@ -58,7 +62,12 @@ void Engine::draw() const {
   io.writeText(strm.str(), 30, 60);
 
   for(auto* s : sprites) s->draw();
-  player->draw();
+  if(attacking){
+	attack->setX(player->getSprite()->getX());
+	attack->setY(player->getSprite()->getY());
+	attack->draw();
+  }
+  else player->draw();
   viewport.draw();
   SDL_RenderPresent(renderer);
 }
@@ -71,6 +80,7 @@ void Engine::update(Uint32 ticks) {
   layer3.update();
   layer2.update();
   layer1.update();
+  if (attacking) attack->update(ticks);
   viewport.update(); // always update viewport last
 }
 
@@ -105,12 +115,16 @@ void Engine::play() {
         if ( keystate[SDL_SCANCODE_T] ) {
           switchSprite();
         }
-        if ( keystate[SDL_SCANCODE_D] ) {
+        if ( keystate[SDL_SCANCODE_SPACE] ) {
+          if (attacking) attacking = false;
+          else attacking = true;
+        }
+        if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] ) {
           std::cout<< "moveRight" << std::endl;
           if (ticks <= 0)ticks +=16;
           player->moveRight(ticks);
         }
-        if ( keystate[SDL_SCANCODE_A] ) {
+        if ( keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT] ) {
           std::cout<< "moveLeft" << std::endl;
           if (ticks <= 0)ticks +=16;
           player->moveLeft(ticks);

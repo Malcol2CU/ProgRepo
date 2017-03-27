@@ -83,7 +83,7 @@
   <startLoc x="1" y="700"/>
   <frames>6</frames>
   <frameInterval>24</frameInterval>
-  <speedX>100</speedX>
+  <speedX>250</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </runR>
@@ -93,7 +93,7 @@
   <startLoc x="1" y="700"/>
   <frames>6</frames>
   <frameInterval>24</frameInterval>
-  <speedX>100</speedX>
+  <speedX>250</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </runL>
@@ -102,8 +102,8 @@
   <file>images/spinAttack.png</file>
   <startLoc x="1" y="700"/>
   <frames>6</frames>
-  <frameInterval>20</frameInterval>
-  <speedX>0</speedX>
+  <frameInterval>24</frameInterval>
+  <speedX>100</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </spinAttack>
@@ -117,13 +117,5 @@
   <speedY>0</speedY>
   <transparency>true</transparency>
 </exp>
-
-<greenorb>
-  <file>images/greenball.bmp</file>
-  <startLoc x="320" y="240"/>
-  <speedX>175</speedX>
-  <speedY>175</speedY>
-  <transparency>true</transparency>
-</greenorb>
 
 </GameData>

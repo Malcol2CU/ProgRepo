@@ -1,20 +1,21 @@
 #ifndef PLAYER__H
 #define PLAYER__H
 #include "sprite.h"
+#include <vector>
 class Player{
 public:
-  Player(Drawable* d);
+  Player(Drawable*, std::vector<Drawable*>);
   ~Player ();
-  void moveRight(Uint32 ticks);
-  void moveLeft(Uint32 ticks);
-  void attack(int attackNum);
-  void addAttack(Drawable *);
-  void draw(){ sprite->draw();}
+  void moveRight(Uint32);
+  void moveLeft(Uint32);
+  void attack(int);
+  void draw();
   Drawable* getSprite() const {return sprite;} 
   void jump();
 
 private:
-  Drawable *sprite;
+  Drawable *sprite, *current;
+  bool isAttacking;
   std::vector<Drawable*> attacks;
 
 };
