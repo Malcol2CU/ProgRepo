@@ -72,31 +72,41 @@
   <file>images/rocks2.png</file>
   <startLoc x="0" y="0"/>
   <frames>8</frames>
-  <frameInterval>40</frameInterval>
+  <frameInterval>50</frameInterval>
   <speedX>65</speedX>
   <speedY>-40</speedY>
   <transparency>true</transparency>
 </rock>
 
 <runR>
-  <file>images/runR.png</file>
+  <file>images/grimWalkR.png</file>
   <startLoc x="1" y="700"/>
-  <frames>16</frames>
-  <frameInterval>20</frameInterval>
-  <speedX>200</speedX>
+  <frames>6</frames>
+  <frameInterval>24</frameInterval>
+  <speedX>100</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </runR>
 
 <runL>
-  <file>images/runL.png</file>
+  <file>images/grimWalkL.png</file>
   <startLoc x="1" y="700"/>
-  <frames>13</frames>
-  <frameInterval>20</frameInterval>
-  <speedX>200</speedX>
+  <frames>6</frames>
+  <frameInterval>24</frameInterval>
+  <speedX>100</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </runL>
+
+<spinAttack>
+  <file>images/spinAttack.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>6</frames>
+  <frameInterval>20</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</spinAttack>
 
 <exp>
   <file>images/explosion.png</file>

@@ -77,6 +77,7 @@ void TwoWaySprite::update(Uint32 ticks) {
     currentFrame = 0;
   }  
 }
+
 void TwoWaySprite::moveLeft(Uint32 ticks){
   advanceFrame(ticks);
   std::cout << ticks << std::endl;
@@ -93,7 +94,7 @@ void TwoWaySprite::moveLeft(Uint32 ticks){
   }
 void TwoWaySprite::moveRight(Uint32 ticks){
   advanceFrame(ticks);
-    std::cout << ticks << std::endl;
+  std::cout << ticks << std::endl;
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
   if(!foward){

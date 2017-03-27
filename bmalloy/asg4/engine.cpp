@@ -107,12 +107,12 @@ void Engine::play() {
         }
         if ( keystate[SDL_SCANCODE_D] ) {
           std::cout<< "moveRight" << std::endl;
-          ticks +=1;
+          if (ticks <= 0)ticks +=16;
           player->moveRight(ticks);
         }
         if ( keystate[SDL_SCANCODE_A] ) {
           std::cout<< "moveLeft" << std::endl;
-           ticks +=1;
+          if (ticks <= 0)ticks +=16;
           player->moveLeft(ticks);
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
