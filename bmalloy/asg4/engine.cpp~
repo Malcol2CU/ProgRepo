@@ -110,7 +110,7 @@ void Engine::play() {
         }
         if ( keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]  ) {
 
-	  sprites[0]->jump(sheets[2], sheets[3]);
+	  sprites[0]->jump(sheets[2], sheets[3];
         }
         if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] ) {;
           sprites[0]->moveRight(sheets[0]);

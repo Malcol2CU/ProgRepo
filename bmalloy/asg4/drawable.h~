@@ -24,7 +24,7 @@ public:
   virtual void update(Uint32 ticks) = 0;
   virtual void moveRight(std::string){}
   virtual void moveLeft(std::string){}
-  virtual void jump(std::string, std::string){}
+  virtual void jump(std::string){}
   virtual void attack(std::string){}
   
   const std::string& getName() const { return name; }

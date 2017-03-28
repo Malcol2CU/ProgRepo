@@ -20,7 +20,7 @@ public:
   
   void moveLeft(std::string);
   void moveRight(std::string);
-  void jump(std::string, std::string);
+  void jump(std::string);
   void attack(std::string);
   
 private:

@@ -1,6 +1,11 @@
 #include "renderContext.h"
+#include "gamedata.h"
 
-RenderContext::RenderContext() : window(nullptr), renderer(nullptr) {
+RenderContext::RenderContext() : 
+  window(nullptr), 
+  renderer(nullptr),
+  factory( FrameFactory::getInstance() )
+{
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 	  throw (std::string("Could not init SDL: ") + SDL_GetError());
  	}
@@ -22,7 +27,8 @@ RenderContext* RenderContext::getInstance() {
 }
 
 SDL_Window* RenderContext::initWindow( ) {
-	window = SDL_CreateWindow( "Hello World", SDL_WINDOWPOS_CENTERED, 
+  std::string title = Gamedata::getInstance().getXmlStr("title");
+	window = SDL_CreateWindow( title.c_str(), SDL_WINDOWPOS_CENTERED, 
              SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN );
   if( window == NULL ) {
     throw (std::string("Couldn't make a window: ")+SDL_GetError());

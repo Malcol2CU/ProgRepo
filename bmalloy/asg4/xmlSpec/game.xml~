@@ -78,7 +78,7 @@
   <transparency>true</transparency>
 </rock>
 
-<jumpR>
+<jump>
   <file>images/grim/jump.png</file>
   <startLoc x="1" y="700"/>
   <frames>4</frames>
@@ -86,7 +86,7 @@
   <speedX>20</speedX>
   <speedY>20</speedY>
   <transparency>true</transparency>
-</jumpR>
+</jump>
 
 <jumpL>
   <file>images/grim/jumpL.png</file>

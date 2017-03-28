@@ -86,7 +86,6 @@ void Player::moveRight(std::string s){
 void Player::jump(std::string fowardJ, std::string j){
   cycle = true;
   if(foward) switchFrames(fowardJ);
-  else switchFrames(j);
 }
 
 void Player::attack(std::string s){

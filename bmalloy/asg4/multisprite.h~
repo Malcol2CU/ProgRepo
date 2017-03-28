@@ -1,32 +1,28 @@
-#ifndef PLAYER__H
-#define PLAYER__H
+#ifndef MULTISPRITE__H
+#define MULTISPRITE__H
 #include <string>
 #include <vector>
 #include <cmath>
 #include "drawable.h"
 
-class Player: public Drawable{
+class MultiSprite : public Drawable {
 public:
-  Player(std::string);
-  Player(const Player&);
-  
+  MultiSprite(const std::string&);
+  MultiSprite(const MultiSprite&);
+
   virtual void draw() const;
   virtual void update(Uint32 ticks);
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
   virtual int getHeight() const {return frameHeight;}
-  virtual int getF() const { return currentFrame;}
-  
-  void moveLeft(std::string);
-  void moveRight(std::string);
-  void jump(std::string, std::string);
-  void attack(std::string);
-  
-private:
-  std::vector<Frame *> frames;
-  std::string current;
-  
+
+  int getF() const { return currentFrame;}
+  virtual void moveLeft(Uint32 ticks){std::cout << ticks;}
+  virtual void moveRight(Uint32 ticks){std::cout << ticks;}
+protected:
+  const std::vector<Frame *> frames;
+
   unsigned currentFrame;
   unsigned numberOfFrames;
   unsigned frameInterval;
@@ -35,9 +31,7 @@ private:
   int worldHeight;
   int frameWidth;
   int frameHeight;
-  bool cycle, foward;
-  void advanceFrame(Uint32 ticks);
-  void switchFrames(std::string);
 
+  void advanceFrame(Uint32 ticks);
 };
 #endif

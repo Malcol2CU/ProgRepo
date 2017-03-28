@@ -28,7 +28,7 @@ TwoWaySprite::TwoWaySprite( const std::string& name, const std::string& name2) :
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   frameWidth(frames[0]->getWidth()),
-  frameHeight(frames[0]->getHeight())
+  frameHeight(frames[0]->getHeight()),
 { }
 
 TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
@@ -41,7 +41,7 @@ TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   worldWidth( s.worldWidth ),
   worldHeight( s.worldHeight ),
   frameWidth( s.frameWidth ),
-  frameHeight( s.frameHeight )
+  frameHeight( s.frameHeight ),
   { }
 
 void TwoWaySprite::draw() const { 

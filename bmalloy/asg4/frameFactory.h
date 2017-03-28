@@ -6,8 +6,7 @@
 #include "unpack.h"
 
 class FrameFactory {
-private:
-friend class RenderContext;
+public:
 
   static FrameFactory* getInstance();
   ~FrameFactory();
@@ -15,6 +14,8 @@ friend class RenderContext;
   Frame* getFrame(const std::string&);
   std::vector<Frame*> getFrames(const std::string&);
 
+
+private:
   static FrameFactory* instance;
   const Gamedata& gdata;
   std::map<std::string, SDL_Texture*> textures;
@@ -26,8 +27,10 @@ friend class RenderContext;
   FrameFactory() : 
     gdata( Gamedata::getInstance() ), 
     textures(),
-    frames()
+    frames(),
+    multiTextures(),
+    multiFrames()
   {}
-  FrameFactory(const FrameFactory&) = delete;
-  FrameFactory& operator=(const FrameFactory&) = delete;
+  FrameFactory(const FrameFactory&);
+  FrameFactory& operator=(const FrameFactory&);
 };

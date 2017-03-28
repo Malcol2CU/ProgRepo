@@ -8,18 +8,28 @@ FrameFactory* FrameFactory::getInstance() {
 }
 
 FrameFactory::~FrameFactory() {
+  std::cout << "Deleting frames in Factory" << std::endl;
   // Free single frame containers
   for(auto& ti : textures) SDL_DestroyTexture(ti.second);
   for(auto& fi : frames  ) delete fi.second;
 
   // Free multi-frame containers
-  for(auto const& value: multiTextures) 
-	for(auto const& texture: value.second)
-      SDL_DestroyTexture( texture);
-    
-  for(auto const& value: multiFrames) 
-	for(auto const& frame: value.second)
-		delete frame;
+  std::map<std::string, std::vector<SDL_Texture*> >::iterator 
+    textures = multiTextures.begin();
+  while ( textures != multiTextures.end() ) {
+    for (unsigned int i = 0; i < textures->second.size(); ++i) {
+      SDL_DestroyTexture( textures->second[i] );
+    }
+    ++textures;
+  }
+  std::map<std::string, std::vector<Frame*> >::iterator 
+    frames = multiFrames.begin();
+  while ( frames != multiFrames.end() ) {
+    for (unsigned int i = 0; i < frames->second.size(); ++i) {
+      delete frames->second[i];
+    }
+    ++frames;
+  }
 }
 
 Frame* FrameFactory::getFrame(const std::string& name) {
