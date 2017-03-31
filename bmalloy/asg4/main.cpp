@@ -1,3 +1,4 @@
+// Brian Malloy        Data-Driven Object oriented Game Construction
 #include "engine.h"
 
 FrameFactory*  FrameFactory::instance = NULL;

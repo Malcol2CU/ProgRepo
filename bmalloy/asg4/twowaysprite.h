@@ -7,19 +7,17 @@
 
 class TwoWaySprite : public Drawable {
 public:
-  TwoWaySprite( const std::string&, const std::string&);
+  TwoWaySprite( const std::string&);
   TwoWaySprite(const TwoWaySprite&);
 
   virtual void draw() const;
-  virtual void update(Uint32 ticks);
+  virtual void update(Uint32);
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
   
 protected:
-  std::vector<Frame *> frames;
-  const std::string rframes;
-  const std::string lframes;
+  std::vector<Frame *> frames, rightFrames, leftFrames;
 
   unsigned currentFrame;
   unsigned numberOfFrames;
