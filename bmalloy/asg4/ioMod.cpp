@@ -83,4 +83,3 @@ void IOmod::writeText(const std::string& msg, int x, int y, SDL_Color color) con
   SDL_RenderCopy(renderer, texture, NULL, &dst);
   SDL_DestroyTexture(texture);
 }
-

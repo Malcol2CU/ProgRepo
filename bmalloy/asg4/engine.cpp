@@ -9,7 +9,7 @@
 #include "engine.h"
 
 
-std::string sheets[] = {"walkR", "walkL", "jumpR", "jumpL", "spinAttack"};
+std::string sheets[] = {"walk", "jump", "spinAttack"};
 Engine::~Engine() { 
   std::cout << "Terminating program" << std::endl;
   for(auto const& value: sprites) {
@@ -30,12 +30,10 @@ Engine::Engine() :
   layer1("layer1", Gamedata::getInstance().getXmlInt("layer1/factor") ),
   viewport( Viewport::getInstance() ),
   sprites(),
+  grim(new Player(sheets[0], sheets[1], sheets[2])),
   currentSprite(-1),
   makeVideo( false )
 {
-  
-  //sprites.push_back(new TwoWaySprite("walkR", "walkL"));
-  sprites.push_back(new Player(sheets[0]));
   switchSprite();
   std::cout << "Loading complete" << std::endl;
 }
@@ -57,6 +55,7 @@ void Engine::draw() const {
   io.writeText(strm.str(), 30, 60);
   
   for(auto* s : sprites) s->draw();
+  grim->draw();
   viewport.draw();
   
   SDL_RenderPresent(renderer);
@@ -64,6 +63,7 @@ void Engine::draw() const {
 
 void Engine::update(Uint32 ticks) {
   for(auto* s : sprites) s->update(ticks);
+  grim->update(ticks);
   layer6.update();
   layer5.update();
   layer4.update();
@@ -75,8 +75,7 @@ void Engine::update(Uint32 ticks) {
 }
 
 void Engine::switchSprite(){
-  currentSprite = ++currentSprite % sprites.size();
-  Viewport::getInstance().setObjectToTrack(sprites[currentSprite]);
+  Viewport::getInstance().setObjectToTrack(grim);
 }
 
 void Engine::play() {
@@ -102,22 +101,14 @@ void Engine::play() {
         if ( keystate[SDL_SCANCODE_S] ) {
           clock.toggleSloMo();
         }
-        if ( keystate[SDL_SCANCODE_T] ) {
-          switchSprite();
-        }
         if ( keystate[SDL_SCANCODE_SPACE] ) {
-	  sprites[0]->attack(sheets[4]);
         }
         if ( keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]  ) {
-
-	  sprites[0]->jump(sheets[2], sheets[3]);
         }
-        if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] ) {;
-          sprites[0]->moveRight(sheets[0]);
-
+        if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] ) {
+		grim->moveRight();
         }
         if ( keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT] ) {
-	  sprites[0]->moveLeft(sheets[1]);
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;

@@ -1,6 +1,5 @@
 #include <SDL.h>
 #include <string>
-#include "gamedata.h"
 
 class Engine;
 
@@ -17,7 +16,6 @@ private:
 
   const bool FRAME_CAP_ON;
   const Uint32 PERIOD;
-  const unsigned int limit = Gamedata::getInstance().getXmlInt("frameCount");
 
   unsigned int frames;
 

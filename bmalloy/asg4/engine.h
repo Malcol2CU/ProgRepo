@@ -31,7 +31,8 @@ private:
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
-  
+  Player* grim;  
+
   int currentSprite;
   bool makeVideo;
 
