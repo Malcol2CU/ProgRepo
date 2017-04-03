@@ -16,6 +16,9 @@ public:
     return frames[currentFrame]; 
   }
   
+  inline float getScale()const{ return scale; }
+  void  setScale(float s){ scale = s; }
+
 protected:
   std::vector<Frame *> frames, rightFrames, leftFrames;
 
@@ -28,5 +31,8 @@ protected:
   int frameWidth;
   int frameHeight;
   void advanceFrame(Uint32 ticks);
+  float scale;
+  int getDistance(const TwoWaySprite*) const;
+  Vector2f makeVelocity(int, int) const;
 };
 #endif

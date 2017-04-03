@@ -1,6 +1,8 @@
 #include <iostream>
+#include <algorithm>
 #include <sstream>
 #include <string>
+#include <random>
 #include <iomanip>
 #include "sprite.h"
 #include "multisprite.h"
@@ -10,6 +12,14 @@
 
 
 std::string sheets[] = {"walk", "jump", "spinAttack"};
+
+class SpriteLess {
+public:
+  bool operator()(const Drawable* lhs, const Drawable* rhs) const {
+    return lhs->getScale() < rhs->getScale();
+  }
+};
+
 Engine::~Engine() { 
   std::cout << "Terminating program" << std::endl;
   for(auto const& value: sprites) {
@@ -34,8 +44,36 @@ Engine::Engine() :
   currentSprite(-1),
   makeVideo( false )
 {
-  switchSprite();
+
+
+  constexpr float u = 1.0f; //Mean size
+  constexpr float d = 0.5f; //Std deviation
+
+  std::random_device rd;
+  std::mt19937 mt(rd());
+  std::normal_distribution<float> dist(u,d);
+
+
+  unsigned int n = 5;
+  for ( unsigned int i = 0; i < n; ++i ) {
+    auto* s = new TwoWaySprite("ghost");
+    float scale = dist(mt);
+    while(scale < 0.1f) scale = dist(mt);
+    s->setScale(scale);
+    sprites.push_back(s);
+  }
+  std::vector<Drawable*>::iterator ptr = sprites.begin();
+  ++ptr;
+  sort(ptr, sprites.end(), SpriteLess());
+  for ( Drawable* sprite : sprites ) {
+    TwoWaySprite* thisone = dynamic_cast<TwoWaySprite*>(sprite);
+    if ( thisone ) {
+      std::cout << thisone->getScale() << std::endl;
+    }
+  }
+
   std::cout << "Loading complete" << std::endl;
+  switchSprite();
 }
 
 void Engine::draw() const {

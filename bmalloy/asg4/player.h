@@ -21,5 +21,6 @@ class Player : public TwoWaySprite {
   private:
 	std::vector<Frame *> jumpRight, jumpLeft, attack1, current;
         bool cycle;
+	float initVelocity;
 };
 #endif

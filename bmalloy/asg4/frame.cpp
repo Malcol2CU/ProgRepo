@@ -28,9 +28,15 @@ Frame& Frame::operator=(const Frame& rhs) {
 }
 
 void Frame::draw(int x, int y) const {
+  draw(x,y,1.0f);
+}
+
+void Frame::draw(int x, int y, float scale) const {
   x -= Viewport::getInstance().getX();
   y -= Viewport::getInstance().getY();
-  SDL_Rect dest = {x, y, width, height };
+  int tempHeight = scale*height;
+  int tempWidth = scale*width;
+  SDL_Rect dest = {x, y, tempWidth, tempHeight};
   SDL_RenderCopy(renderer, texture, NULL, &dest);
 }
 
@@ -39,4 +45,3 @@ void Frame::draw(int sx, int sy, int dx, int dy) const {
   SDL_Rect dst = { dx, dy, width, height };
   SDL_RenderCopy(renderer, texture, &src, &dst);
 }
-

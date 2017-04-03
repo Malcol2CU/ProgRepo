@@ -1,6 +1,38 @@
+#include <cmath>
+#include <random>
+#include <functional>
 #include "twowaysprite.h"
 #include "gamedata.h"
 #include "renderContext.h"
+
+const float PI = 4.0f*std::atan(1.0f);
+
+using RADRAND_t = decltype(std::bind(std::declval<std::uniform_real_distribution<float> >(),std::declval<std::mt19937>()));
+using NORRAND_t = decltype(std::bind(std::declval<std::normal_distribution<float> >(),std::declval<std::mt19937>()));
+
+std::mt19937 getRand(){
+  static std::random_device rd;
+  return std::mt19937(rd());
+}
+
+RADRAND_t getRadianDist(){
+  return std::bind(std::uniform_real_distribution<float>(0.0f,2.0f*PI),getRand());
+}
+
+NORRAND_t getNormalDist(float u, float dev){
+  return std::bind(std::normal_distribution<float>(u,dev),getRand());
+}
+
+Vector2f TwoWaySprite::makeVelocity(int vx, int vy) const {
+  static auto rad = getRadianDist();
+  auto nor = getNormalDist(vx,vy);
+
+  float v_rad = rad();
+  float v_mag = nor();
+
+  return v_mag*Vector2f(std::cos(v_rad),std::sin(v_rad));
+}
+
 
 void TwoWaySprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -27,7 +59,8 @@ TwoWaySprite::TwoWaySprite( const std::string& name) :
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   frameWidth(frames[0]->getWidth()),
-  frameHeight(frames[0]->getHeight())
+  frameHeight(frames[0]->getHeight()),
+  scale(1)
 { }
 
 TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
@@ -45,8 +78,14 @@ TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   frameHeight( s.frameHeight )
   { }
 
+inline namespace{
+  constexpr float SCALE_EPSILON = 2e-7;
+}
+
 void TwoWaySprite::draw() const { 
-  frames[currentFrame]->draw(getX(), getY());
+  if(getScale() < SCALE_EPSILON) return;
+  makeVelocity(100,0);
+  frames[currentFrame]->draw(getX(), getY(), scale); 
 }
 
 void TwoWaySprite::update(Uint32 ticks) { 
@@ -57,7 +96,7 @@ void TwoWaySprite::update(Uint32 ticks) {
   if ( getY() < 0) {
     setVelocityY( fabs( getVelocityY() ) );
   }
-  if ( getY() > worldHeight-frameHeight) {
+  if ( getY() > worldHeight-scale*frameHeight) {
     setVelocityY( -fabs( getVelocityY() ) );
   }
 
@@ -65,7 +104,7 @@ void TwoWaySprite::update(Uint32 ticks) {
     setVelocityX( fabs( getVelocityX() ) );
     frames = rightFrames;
   }
-  if ( getX() > worldWidth-frameWidth) {
+  if ( getX() > worldWidth-scale*frameWidth) {
     setVelocityX( -fabs( getVelocityX() ) );
     frames = leftFrames;
   }  

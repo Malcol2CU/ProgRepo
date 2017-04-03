@@ -113,7 +113,7 @@
   <startLoc x="1" y="700"/>
   <frames>6</frames>
   <frameInterval>70</frameInterval>
-  <speedX>200</speedX>
+  <speedX>-200</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </walkL>
@@ -127,6 +127,26 @@
   <speedY>0</speedY>
   <transparency>true</transparency>
 </spinAttack>
+
+<ghostR>
+  <file>images/g.png</file>
+  <startLoc x="1" y="500"/>
+  <frames>9</frames>
+  <frameInterval>81</frameInterval>
+  <speedX>100</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</ghostR>
+
+<ghostL>
+  <file>images/g1.png</file>
+  <startLoc x="1" y="500"/>
+  <frames>9</frames>
+  <frameInterval>81</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</ghostL>
 
 <exp>
   <file>images/explosion.png</file>

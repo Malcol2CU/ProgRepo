@@ -8,7 +8,8 @@ Player::Player(const std::string& walk, const std::string& jump, const std::stri
   jumpLeft( RenderContext::getInstance()->getFrames(jump+"L")),
   attack1(RenderContext::getInstance()->getFrames(a1)),
   current(frames),
-  cycle(false)
+  cycle(false),
+  initVelocity(getVelocityX())
 { std::cout<< "player created" << std::endl;}
 
 Player::Player(const Player& s) :
@@ -17,7 +18,9 @@ Player::Player(const Player& s) :
 
 void Player::update(Uint32 ticks) { 
   if(currentFrame == numberOfFrames-1){ 
-    cycle = false; currentFrame = 0; frames = current;
+    cycle = false; currentFrame = 0; frames = current; 
+    setVelocityX(initVelocity); setVelocityY(0.0);
+
   }
   if(cycle){
     advanceFrame(ticks);
@@ -39,12 +42,14 @@ void Player::moveLeft(){
 }
 
 void Player::jump(){
-  if(getVelocityX() > 0.0) frames = jumpRight;
+  if(frames == rightFrames || getVelocityX() > 0) frames = jumpRight;
   else frames = jumpLeft;
+  setVelocityX(0.0);
   cycle = true;
 }
 
 void Player::attack(){
   frames = attack1;
+  setVelocityX(0.0);
   cycle =  true;
 }
