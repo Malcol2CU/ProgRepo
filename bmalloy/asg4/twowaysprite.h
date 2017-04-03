@@ -18,6 +18,7 @@ public:
   
   inline float getScale()const{ return scale; }
   void  setScale(float s){ scale = s; }
+  Vector2f makeVelocity(int, int) const;
 
 protected:
   std::vector<Frame *> frames, rightFrames, leftFrames;
@@ -33,6 +34,6 @@ protected:
   void advanceFrame(Uint32 ticks);
   float scale;
   int getDistance(const TwoWaySprite*) const;
-  Vector2f makeVelocity(int, int) const;
+  int makeRandom();
 };
 #endif

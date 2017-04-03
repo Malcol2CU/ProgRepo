@@ -1,6 +1,38 @@
+#include <cmath>
+#include <random>
+#include <functional>
 #include "twowaysprite.h"
 #include "gamedata.h"
 #include "renderContext.h"
+
+const float PI = 4.0f*std::atan(1.0f);
+
+using RADRAND_t = decltype(std::bind(std::declval<std::uniform_real_distribution<float> >(),std::declval<std::mt19937>()));
+using NORRAND_t = decltype(std::bind(std::declval<std::normal_distribution<float> >(),std::declval<std::mt19937>()));
+
+std::mt19937 getRand(){
+  static std::random_device rd;
+  return std::mt19937(rd());
+}
+
+RADRAND_t getRadianDist(){
+  return std::bind(std::uniform_real_distribution<float>(0.0f,2.0f*PI),getRand());
+}
+
+NORRAND_t getNormalDist(float u, float dev){
+  return std::bind(std::normal_distribution<float>(u,dev),getRand());
+}
+
+Vector2f TwoWaySprite::makeVelocity(int vx, int vy) const {
+  static auto rad = getRadianDist();
+  auto nor = getNormalDist(vx,vy);
+
+  float v_rad = rad();
+  float v_mag = nor();
+
+  return v_mag*Vector2f(std::cos(v_rad),std::sin(v_rad));
+}
+
 
 void TwoWaySprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -10,30 +42,32 @@ void TwoWaySprite::advanceFrame(Uint32 ticks) {
 	}
 }
 
-TwoWaySprite::TwoWaySprite( const std::string& name, const std::string& name2) :
-  Drawable(name, 
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"/startLoc/x"), 
-                    Gamedata::getInstance().getXmlInt(name+"/startLoc/y")), 
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"/speedX"),
-                    Gamedata::getInstance().getXmlInt(name+"/speedY"))
+TwoWaySprite::TwoWaySprite( const std::string& name) :
+  Drawable(name+"R", 
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"R/startLoc/x"), 
+                    Gamedata::getInstance().getXmlInt(name+"R/startLoc/y")), 
+           makeVelocity(Gamedata::getInstance().getXmlInt(name+"R/speedX"),
+                    0))
            ),
-  frames( RenderContext::getInstance()->getFrames(name) ),
-  rframes(name),
-  lframes(name2),
-
+  frames( RenderContext::getInstance()->getFrames(name+"R") ),
+  rightFrames(frames),
+  leftFrames(RenderContext::getInstance()->getFrames(name+"L")),
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
-  frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval")),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"R/frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"R/frameInterval")),
   timeSinceLastFrame( 0 ),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
+  scale(1)
 { }
 
 TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   Drawable(s), 
   frames(s.frames),
+  rightFrames(s.rightFrames),
+  leftFrames(s.leftFrames),
   currentFrame(s.currentFrame),
   numberOfFrames( s.numberOfFrames ),
   frameInterval( s.frameInterval ),
@@ -41,11 +75,17 @@ TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   worldWidth( s.worldWidth ),
   worldHeight( s.worldHeight ),
   frameWidth( s.frameWidth ),
-  frameHeight( s.frameHeight ),
+  frameHeight( s.frameHeight )
   { }
 
+inline namespace{
+  constexpr float SCALE_EPSILON = 2e-7;
+}
+
 void TwoWaySprite::draw() const { 
-  frames[currentFrame]->draw(getX(), getY());
+  if(getScale() < SCALE_EPSILON) return;
+  makeVelocity(100,0);
+  frames[currentFrame]->draw(getX(), getY(), scale); 
 }
 
 void TwoWaySprite::update(Uint32 ticks) { 
@@ -56,22 +96,16 @@ void TwoWaySprite::update(Uint32 ticks) {
   if ( getY() < 0) {
     setVelocityY( fabs( getVelocityY() ) );
   }
-  if ( getY() > worldHeight-frameHeight) {
+  if ( getY() > worldHeight-scale*frameHeight) {
     setVelocityY( -fabs( getVelocityY() ) );
   }
 
   if ( getX() < 0) {
     setVelocityX( fabs( getVelocityX() ) );
-    frames = RenderContext::getInstance()->getFrames(rframes);
-    numberOfFrames = Gamedata::getInstance().getXmlInt(rframes+"/frames"); 
-    frameInterval = Gamedata::getInstance().getXmlInt(rframes+"/frameInterval");
-    currentFrame = 0;
+    frames = rightFrames;
   }
-  if ( getX() > worldWidth-frameWidth) {
+  if ( getX() > worldWidth-scale*frameWidth) {
     setVelocityX( -fabs( getVelocityX() ) );
-    frames = RenderContext::getInstance()->getFrames(lframes);
-    numberOfFrames = Gamedata::getInstance().getXmlInt(lframes+"/frames"); 
-    frameInterval = Gamedata::getInstance().getXmlInt(lframes+"/frameInterval");
-    currentFrame = 0;
+    frames = leftFrames;
   }  
 }

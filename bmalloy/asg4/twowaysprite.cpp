@@ -46,8 +46,8 @@ TwoWaySprite::TwoWaySprite( const std::string& name) :
   Drawable(name+"R", 
            Vector2f(Gamedata::getInstance().getXmlInt(name+"R/startLoc/x"), 
                     Gamedata::getInstance().getXmlInt(name+"R/startLoc/y")), 
-           Vector2f(Gamedata::getInstance().getXmlInt(name+"R/speedX"),
-                    Gamedata::getInstance().getXmlInt(name+"R/speedY"))
+           makeVelocity(Gamedata::getInstance().getXmlInt(name+"R/speedX"),
+                    0)
            ),
   frames( RenderContext::getInstance()->getFrames(name+"R") ),
   rightFrames(frames),

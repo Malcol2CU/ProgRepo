@@ -45,9 +45,11 @@ Engine::Engine() :
   makeVideo( false )
 {
 
-
+  grim->setVelocityX(100.0);
+  grim->setVelocityY(0.0);
+   
   constexpr float u = 1.0f; //Mean size
-  constexpr float d = 0.5f; //Std deviation
+  constexpr float d = 0.2f; //Std deviation
 
   std::random_device rd;
   std::mt19937 mt(rd());
@@ -57,6 +59,7 @@ Engine::Engine() :
   unsigned int n = 5;
   for ( unsigned int i = 0; i < n; ++i ) {
     auto* s = new TwoWaySprite("ghost");
+    s->makeVelocity(100, 0);
     float scale = dist(mt);
     while(scale < 0.1f) scale = dist(mt);
     s->setScale(scale);
