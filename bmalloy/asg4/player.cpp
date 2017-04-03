@@ -7,6 +7,7 @@ Player::Player(const std::string& walk, const std::string& jump, const std::stri
   jumpRight(RenderContext::getInstance()->getFrames(jump+"R")),
   jumpLeft( RenderContext::getInstance()->getFrames(jump+"L")),
   attack1(RenderContext::getInstance()->getFrames(a1)),
+  current(frames),
   cycle(false)
 { std::cout<< "player created" << std::endl;}
 
@@ -16,7 +17,7 @@ Player::Player(const Player& s) :
 
 void Player::update(Uint32 ticks) { 
   if(currentFrame == numberOfFrames-1){ 
-    cycle = false; currentFrame = 0;
+    cycle = false; currentFrame = 0; frames = current;
   }
   if(cycle){
     advanceFrame(ticks);
@@ -26,36 +27,24 @@ void Player::update(Uint32 ticks) {
 }
 
 void Player::moveRight(){
-   frames = rightFrames;
+   frames = current = rightFrames;
+   setVelocityX( fabs( getVelocityX() ) );
    cycle = true; 
 }
 
-//void Player::moveRight(std::string s){
-  //cycle = true;
-  //if(current != s){
-    //foward = true;
-    //current = s;
-    //setVelocityX( fabs( getVelocityX() ) );
-    //switchFrames(s);
-  //}
-//}
+void Player::moveLeft(){
+   frames = current = leftFrames;
+   setVelocityX( -fabs( getVelocityX() ) );
+   cycle = true; 
+}
 
-//void Player::jump(std::string fowardJ, std::string j){
-  //cycle = true;
-  //if(foward) switchFrames(fowardJ);
-  //else switchFrames(j);
-//}
+void Player::jump(){
+  if(getVelocityX() > 0.0) frames = jumpRight;
+  else frames = jumpLeft;
+  cycle = true;
+}
 
-//void Player::attack(std::string s){
-  //cycle =  true;
-  //switchFrames(s);
-//}
-
-//void Player::switchFrames(std::string framewalk){
-    //frames = RenderContext::getInstance()->getFrames(framewalk);
-    //numberOfFrames = Gamedata::getInstance().getXmlInt(framewalk+"/frames"); 
-    //frameInterval = Gamedata::getInstance().getXmlInt(framewalk+"/frameInterval");
-    //currentFrame = 0;
-//}
-
-
+void Player::attack(){
+  frames = attack1;
+  cycle =  true;
+}

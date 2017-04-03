@@ -14,13 +14,12 @@ class Player : public TwoWaySprite {
 
 	void moveLeft();
 	void moveRight();
-	void jump(std::string, std::string);
-	void attack(std::string);
+	void jump();
+	void attack();
         void stop();
   
   private:
-	std::vector<Frame *> jumpRight, jumpLeft, attack1;
+	std::vector<Frame *> jumpRight, jumpLeft, attack1, current;
         bool cycle;
-
 };
 #endif

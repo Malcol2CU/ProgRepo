@@ -102,13 +102,16 @@ void Engine::play() {
           clock.toggleSloMo();
         }
         if ( keystate[SDL_SCANCODE_SPACE] ) {
+        	grim->attack();
         }
         if ( keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]  ) {
+        	grim->jump();
         }
         if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] ) {
 		grim->moveRight();
         }
         if ( keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT] ) {
+        	grim->moveLeft();
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;
