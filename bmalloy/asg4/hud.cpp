@@ -41,12 +41,12 @@ void Hud::draw(int x, int y, int w, int h, int fps, int ticks){
 	SDL_Color color = {255, 50, 50, 0};
      
     if (alpha == 0) return;
-	io.writeText(Gamedata::getInstance().getXmlStr("username"),
-	Gamedata::getInstance().getXmlFloat("view/width")/2.4,0, color);
+	io.writeText("Malcolm Miller(Malcol2)",
+	1,455, color);
 	strm << "fps: " << fps << " Time: " << ticks; 
     strm1 <<"w & Up Arrow: Jump"; 
-    strm2 << "d & rightArrow: Move right";
-    strm3 << "na & leftArrow: Move left"; 
+    strm2 << "d & ->: Move right";
+    strm3 << "a & <-: Move left"; 
     strm4 << "Space Bar: Attack";
 	io.writeText(strm.str(), 10, 10, color);
 	io.writeText(strm1.str(), 10, 40, color);

@@ -29,20 +29,38 @@ void Player::update(Uint32 ticks) {
   }
 }
 
+void Player::processKeyState(const Uint8* keystate){
+    if ( keystate[SDL_SCANCODE_SPACE] ) {
+    	attack();
+		setVelocityX(0.0);
+        if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] )  setVelocityX(200.0);
+        else if( keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT] ) setVelocityX(-200.0);
+    }
+    else if ( keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]  ) {
+    	jump();
+    }
+    else if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] ) {
+		moveRight();
+    }
+    else if ( keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT] ) {
+    	moveLeft();
+    }
+}
+
 void Player::moveRight(){
    frames = current = rightFrames;
-   setVelocityX( fabs( getVelocityX() ) );
+   setVelocityX(200);
    cycle = true; 
 }
 
 void Player::moveLeft(){
    frames = current = leftFrames;
-   setVelocityX( -fabs( getVelocityX() ) );
+   setVelocityX(-200);
    cycle = true; 
 }
 
 void Player::jump(){
-  if(frames == rightFrames || getVelocityX() > 0) frames = jumpRight;
+  if(current == rightFrames) frames = jumpRight;
   else frames = jumpLeft;
   setVelocityX(0.0);
   cycle = true;
@@ -50,6 +68,5 @@ void Player::jump(){
 
 void Player::attack(){
   frames = attack1;
-  setVelocityX(0.0);
   cycle =  true;
 }

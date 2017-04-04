@@ -2,15 +2,22 @@ Name: Malcolm Miller
 
 Clemson Email Address: Malcol2@g.clemson.edu
 
-Project no: 3
+Project no: 4
 
-Project due date: March 12, 2017
+Project due date: April 4, 2017
 
-Project description: animation that uses scrolling and has three different sprites that collide
-The video was generated and placed within the frames folder
+Project description: Grim player that has walking animations, jump animation, and attacking animation. Painters algorithm is used on the ghost flying in the back. 
+d and left arrow  moves grim left
+a and right arrow moves grim right
+w and up arrow makes grim jump
+space bar is spin attack
+f1 to toggle hud
 
 The easiest part of this project: getting the sprites and background
 
-Problems that I had in completing this project: making the project run smother
+Problems that I had in completing this project: fixing the jitteryness of my sprite animations
 
 Backgroung images came from Mobile game graphics. 
+
+Final Project:
+I look to expand on this project by adding a health bar, more attacks, making the ghost attack grim, and by adding more enemys and perhaps a final boss at the end.

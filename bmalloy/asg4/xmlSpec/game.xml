@@ -5,7 +5,7 @@
 <title>Robot Animation</title>
 <maxStringSize>50</maxStringSize>
 
-<frameCapOn>true</frameCapOn>
+<frameCapOn>false</frameCapOn>
 <period>17</period>
 
 <frameCount>100</frameCount>
@@ -13,8 +13,8 @@
 <username>malcol2</username>
 
 <view>
-  <width>850</width>
-  <height>600</height>
+  <width>854</width>
+  <height>480</height>
 </view>
 
 <world>
@@ -71,8 +71,8 @@
 <jumpR>
   <file>images/grim/jump.png</file>
   <startLoc x="1" y="700"/>
-  <frames>4</frames>
-  <frameInterval>70</frameInterval>
+  <frames>3</frames>
+  <frameInterval>69</frameInterval>
   <speedX>20</speedX>
   <speedY>20</speedY>
   <transparency>true</transparency>
@@ -81,8 +81,8 @@
 <jumpL>
   <file>images/grim/jumpL.png</file>
   <startLoc x="1" y="700"/>
-  <frames>4</frames>
-  <frameInterval>70</frameInterval>
+  <frames>3</frames>
+  <frameInterval>69</frameInterval>
   <speedX>20</speedX>
   <speedY>20</speedY>
   <transparency>true</transparency>

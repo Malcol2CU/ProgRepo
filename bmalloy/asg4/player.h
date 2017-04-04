@@ -11,12 +11,13 @@ class Player : public TwoWaySprite {
 	Player(const Player&);
 
 	virtual void update(Uint32 ticks);
+    void processKeyState(const Uint8* keystate);
 
 	void moveLeft();
 	void moveRight();
 	void jump();
 	void attack();
-        void stop();
+    void stop();
   
   private:
 	std::vector<Frame *> jumpRight, jumpLeft, attack1, current;

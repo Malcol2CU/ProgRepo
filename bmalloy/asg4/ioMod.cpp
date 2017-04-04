@@ -1,4 +1,5 @@
 #include <SDL_image.h>
+
 #include "ioMod.h"
 #include "gamedata.h"
 #include "renderContext.h"
@@ -71,8 +72,8 @@ void IOmod::writeText(const std::string& msg, int x, int y, SDL_Color color) con
   int textHeight;
 
   SDL_Surface* surface = 
-    TTF_RenderText_Solid(font, msg.c_str(), color);
-
+    TTF_RenderText_Blended(font, msg.c_str(), color);
+  
   SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
   textWidth = surface->w;

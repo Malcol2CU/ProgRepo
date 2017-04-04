@@ -44,7 +44,7 @@ Engine::Engine() :
   hud(new Hud())
 {
 
-  grim->setVelocityX(100.0);
+  grim->setVelocityX(200.0);
   grim->setVelocityY(0.0);
    
   constexpr float u = 1.0f; //Mean size
@@ -53,7 +53,6 @@ Engine::Engine() :
   std::random_device rd;
   std::mt19937 mt(rd());
   std::normal_distribution<float> dist(u,d);
-
 
   unsigned int n = 50;
   for ( unsigned int i = 0; i < n; ++i ) {
@@ -85,9 +84,6 @@ void Engine::draw() const {
   layer1.draw();
   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++) sprites[x]->draw();
   
-
-  
- // for(auto* s : sprites) s->draw();
   grim->draw();
   hud->draw(1, 1, 300,200, clock.getFps(), clock.getSeconds());
   viewport.draw();
@@ -135,30 +131,19 @@ void Engine::play() {
 		    if ( keystate[SDL_SCANCODE_S] ) {
 		      clock.toggleSloMo();
 		    }
-		    if ( keystate[SDL_SCANCODE_H] ) {
+		    if ( keystate[SDL_SCANCODE_F1] ) {
 		      hud->display();
 		    }
+		    if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
+		      std::cout << "Initiating frame capture" << std::endl;
+		      makeVideo = true;
+		    }
+		    else if (keystate[SDL_SCANCODE_F4] && makeVideo) {
+		      std::cout << "Terminating frame capture" << std::endl;
+		      makeVideo = false;
+		    }
 		}
-        if ( keystate[SDL_SCANCODE_SPACE] ) {
-        	grim->attack();
-        }
-        if ( keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]  ) {
-        	grim->jump();
-        }
-        if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] ) {
-		grim->moveRight();
-        }
-        if ( keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT] ) {
-        	grim->moveLeft();
-        }
-        if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
-          std::cout << "Initiating frame capture" << std::endl;
-          makeVideo = true;
-        }
-        else if (keystate[SDL_SCANCODE_F4] && makeVideo) {
-          std::cout << "Terminating frame capture" << std::endl;
-          makeVideo = false;
-        }
+      grim->processKeyState(keystate);
       }
     
    ticks = clock.getElapsedTicks();
