@@ -13,6 +13,7 @@ OBJS = \
 	viewport.o \
 	world.o \
 	unpack.o \
+    hud.o\
 	frame.o \
 	frameFactory.o \
 	frameGenerator.o \

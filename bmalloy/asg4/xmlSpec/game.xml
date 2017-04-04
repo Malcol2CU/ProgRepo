@@ -68,16 +68,6 @@
   <alpha>0</alpha>
 </font>
 
-<rock>
-  <file>images/m.png</file>
-  <startLoc x="0" y="0"/>
-  <frames>9</frames>
-  <frameInterval>50</frameInterval>
-  <speedX>80</speedX>
-  <speedY>-50</speedY>
-  <transparency>true</transparency>
-</rock>
-
 <jumpR>
   <file>images/grim/jump.png</file>
   <startLoc x="1" y="700"/>
@@ -129,7 +119,7 @@
 </spinAttack>
 
 <ghostR>
-  <file>images/g.png</file>
+  <file>images/ghost/moveRight.png</file>
   <startLoc x="1" y="500"/>
   <frames>9</frames>
   <frameInterval>81</frameInterval>
@@ -139,7 +129,7 @@
 </ghostR>
 
 <ghostL>
-  <file>images/g1.png</file>
+  <file>images/ghost/moveLeft.png</file>
   <startLoc x="1" y="500"/>
   <frames>9</frames>
   <frameInterval>81</frameInterval>
@@ -147,15 +137,5 @@
   <speedY>0</speedY>
   <transparency>true</transparency>
 </ghostL>
-
-<exp>
-  <file>images/explosion.png</file>
-  <startLoc x="1250" y="700"/>
-  <frames>10</frames>
-  <frameInterval>30</frameInterval>
-  <speedX>0</speedX>
-  <speedY>0</speedY>
-  <transparency>true</transparency>
-</exp>
 
 </GameData>

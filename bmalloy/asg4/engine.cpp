@@ -29,7 +29,6 @@ Engine::~Engine() {
 
 Engine::Engine() :
   rc( RenderContext::getInstance() ),
-  io( IOmod::getInstance() ),
   clock( Clock::getInstance() ),
   renderer( rc->getRenderer() ),
   layer6("layer6", Gamedata::getInstance().getXmlInt("layer6/factor") ),
@@ -41,40 +40,34 @@ Engine::Engine() :
   viewport( Viewport::getInstance() ),
   sprites(),
   grim(new Player(sheets[0], sheets[1], sheets[2])),
-  currentSprite(-1),
-  makeVideo( false )
+  makeVideo( false ),
+  hud(new Hud())
 {
 
   grim->setVelocityX(100.0);
   grim->setVelocityY(0.0);
    
   constexpr float u = 1.0f; //Mean size
-  constexpr float d = 0.2f; //Std deviation
+  constexpr float d = 0.3f; //Std deviation
 
   std::random_device rd;
   std::mt19937 mt(rd());
   std::normal_distribution<float> dist(u,d);
 
 
-  unsigned int n = 5;
+  unsigned int n = 50;
   for ( unsigned int i = 0; i < n; ++i ) {
     auto* s = new TwoWaySprite("ghost");
     s->makeVelocity(100, 0);
     float scale = dist(mt);
     while(scale < 0.1f) scale = dist(mt);
     s->setScale(scale);
+    s->makePosition(500,100);
     sprites.push_back(s);
   }
   std::vector<Drawable*>::iterator ptr = sprites.begin();
   ++ptr;
   sort(ptr, sprites.end(), SpriteLess());
-  for ( Drawable* sprite : sprites ) {
-    TwoWaySprite* thisone = dynamic_cast<TwoWaySprite*>(sprite);
-    if ( thisone ) {
-      std::cout << thisone->getScale() << std::endl;
-    }
-  }
-
   std::cout << "Loading complete" << std::endl;
   switchSprite();
 }
@@ -82,21 +75,21 @@ Engine::Engine() :
 void Engine::draw() const {
   layer6.draw();
   layer5.draw();
+  for(int x = 0; x < static_cast<int>(sprites.size()/5); x++) sprites[x]->draw();
   layer4.draw();
+  for(int x = (sprites.size()/5); x < static_cast<int>(2*(sprites.size()/5)); x++) sprites[x]->draw();
   layer3.draw();
+  for(int x = 2*(sprites.size()/5); x < static_cast<int>(3*(sprites.size()/5)); x++) sprites[x]->draw();
   layer2.draw();
+  for(int x = 2*(sprites.size()/5); x < static_cast<int>(3*(sprites.size()/5)); x++) sprites[x]->draw();
   layer1.draw();
+  for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++) sprites[x]->draw();
   
-  SDL_Color color = {255, 50, 50, 255};
-  io.writeText(Gamedata::getInstance().getXmlStr("username"),
-	Gamedata::getInstance().getXmlFloat("view/width")/2.4,0, color);
-	
-  std::stringstream strm;
-  strm << "fps: " << clock.getFps() << "\nAvg. fps:" << clock.getAvgFps();
-  io.writeText(strm.str(), 30, 60);
+
   
-  for(auto* s : sprites) s->draw();
+ // for(auto* s : sprites) s->draw();
   grim->draw();
+  hud->draw(1, 1, 300,200, clock.getFps(), clock.getSeconds());
   viewport.draw();
   
   SDL_RenderPresent(renderer);
@@ -131,17 +124,21 @@ void Engine::play() {
       keystate = SDL_GetKeyboardState(NULL);
       if (event.type ==  SDL_QUIT) { done = true; break; }
       if(event.type == SDL_KEYDOWN) {
-        if (keystate[SDL_SCANCODE_ESCAPE] || keystate[SDL_SCANCODE_Q]) {
-          done = true;
-          break;
-        }
-        if ( keystate[SDL_SCANCODE_P] ) {
-          if ( clock.isPaused() ) clock.unpause();
-          else clock.pause();
-        }
-        if ( keystate[SDL_SCANCODE_S] ) {
-          clock.toggleSloMo();
-        }
+		    if (keystate[SDL_SCANCODE_ESCAPE] || keystate[SDL_SCANCODE_Q]) {
+		      done = true;
+		      break;
+		    }
+		    if ( keystate[SDL_SCANCODE_P] ) {
+		      if ( clock.isPaused() ) clock.unpause();
+		      else clock.pause();
+		    }
+		    if ( keystate[SDL_SCANCODE_S] ) {
+		      clock.toggleSloMo();
+		    }
+		    if ( keystate[SDL_SCANCODE_H] ) {
+		      hud->display();
+		    }
+		}
         if ( keystate[SDL_SCANCODE_SPACE] ) {
         	grim->attack();
         }
@@ -163,7 +160,7 @@ void Engine::play() {
           makeVideo = false;
         }
       }
-    }
+    
    ticks = clock.getElapsedTicks();
     if ( ticks > 0 ) {
       clock.incrFrame();
@@ -173,5 +170,6 @@ void Engine::play() {
         frameGen.makeFrame();
       }
     }
+   
   }
 }

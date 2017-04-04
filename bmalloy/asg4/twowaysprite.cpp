@@ -33,6 +33,17 @@ Vector2f TwoWaySprite::makeVelocity(int vx, int vy) const {
   return v_mag*Vector2f(std::cos(v_rad),std::sin(v_rad));
 }
 
+void TwoWaySprite::makePosition(int vx, int vy) {
+  static auto rad = getRadianDist();
+  auto nor = getNormalDist(vx,vy);
+
+  float v_rad = rad();
+  float v_mag = nor();
+
+  const Vector2f vec( v_mag*Vector2f(1,std::sin(v_rad)));
+  setPosition(vec);
+}
+
 
 void TwoWaySprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -47,7 +58,7 @@ TwoWaySprite::TwoWaySprite( const std::string& name) :
            Vector2f(Gamedata::getInstance().getXmlInt(name+"R/startLoc/x"), 
                     Gamedata::getInstance().getXmlInt(name+"R/startLoc/y")), 
            makeVelocity(Gamedata::getInstance().getXmlInt(name+"R/speedX"),
-                    0)
+                    10)
            ),
   frames( RenderContext::getInstance()->getFrames(name+"R") ),
   rightFrames(frames),
@@ -61,7 +72,9 @@ TwoWaySprite::TwoWaySprite( const std::string& name) :
   frameWidth(frames[0]->getWidth()),
   frameHeight(frames[0]->getHeight()),
   scale(1)
-{ }
+{ 
+  if(getVelocityX() < 0.0) frames = leftFrames;
+}
 
 TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   Drawable(s), 
@@ -84,7 +97,6 @@ inline namespace{
 
 void TwoWaySprite::draw() const { 
   if(getScale() < SCALE_EPSILON) return;
-  makeVelocity(100,0);
   frames[currentFrame]->draw(getX(), getY(), scale); 
 }
 

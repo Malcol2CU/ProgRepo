@@ -19,6 +19,7 @@ public:
   inline float getScale()const{ return scale; }
   void  setScale(float s){ scale = s; }
   Vector2f makeVelocity(int, int) const;
+  void makePosition(int, int);
 
 protected:
   std::vector<Frame *> frames, rightFrames, leftFrames;

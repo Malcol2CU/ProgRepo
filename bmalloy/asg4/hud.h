@@ -1,23 +1,23 @@
 #ifndef HUD_H
 #define HUD_H
+
 #include <SDL.h>
 #include <iostream>
 #include <string>
-#include "gamedata.h"
-#include "renderContext.h"
+#include "ioMod.h"
 
-Class Hud{
+class Hud{
   public:
     Hud();
     ~Hud();
-    void update();
-    void draw();
+    void draw(int, int, int, int, int, int);
+    void display();
 
   private:
-    SDL_Rect hud
+    SDL_Rect hud;
+    SDL_Renderer * const renderer;
+    const IOmod& io;
+    Uint8 alpha;
 };
 
-Hud::Hud():hud(0,0,300,300){
-	SDL_RenderCopy(renderContext::getInstance().getRenderer(), NULL, NULL, &hud);
-}
 #endif
