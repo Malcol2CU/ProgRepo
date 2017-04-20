@@ -1,0 +1,170 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<title>Robot Animation</title>
+<maxStringSize>50</maxStringSize>
+
+<frameCapOn>false</frameCapOn>
+<period>17</period>
+
+<frameCount>100</frameCount>
+<maxFrames>500</maxFrames>
+<username>malcol2</username>
+
+<view>
+  <width>854</width>
+  <height>480</height>
+</view>
+
+<world>
+  <width>3000</width>
+  <height>820</height>
+</world>
+
+
+<layer1>
+  <file>images/background/layer1.png</file>
+  <factor>1</factor>
+  <transparency>false</transparency>
+</layer1>
+
+<layer2>
+  <file>images/background/layer2.png</file>
+  <factor>2</factor>
+  <transparency>false</transparency>
+</layer2>
+
+<layer3>
+  <file>images/background/layer3.png</file>
+  <factor>6</factor>
+  <transparency>false</transparency>
+</layer3>
+
+<layer4>
+  <file>images/background/layer4.png</file>
+  <factor>8</factor>
+  <transparency>false</transparency>
+</layer4>
+
+<layer5>
+  <file>images/background/layer5.png</file>
+  <factor>10</factor>
+  <transparency>false</transparency>
+</layer5>
+
+<layer6>
+  <file>images/background/layer6.png</file>
+  <factor>12</factor>
+  <transparency>false</transparency>
+</layer6>
+
+<font name="font">
+  <file>fonts/arial.ttf</file>
+  <size>24</size>
+  <red>255</red>
+  <green>255</green>
+  <blue>255</blue>
+  <alpha>0</alpha>
+</font>
+
+<jumpR>
+  <file>images/grim/jump.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>3</frames>
+  <frameInterval>69</frameInterval>
+  <speedX>20</speedX>
+  <speedY>20</speedY>
+  <transparency>true</transparency>
+</jumpR>
+
+<jumpL>
+  <file>images/grim/jumpL.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>3</frames>
+  <frameInterval>69</frameInterval>
+  <speedX>20</speedX>
+  <speedY>20</speedY>
+  <transparency>true</transparency>
+</jumpL>
+
+<walkR>
+  <file>images/grim/walkR.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>6</frames>
+  <frameInterval>70</frameInterval>
+  <speedX>200</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+        <chunk>
+      <size>9</size>
+      <distance>200</distance>
+    </chunk>
+</walkR>
+
+<walkL>
+  <file>images/grim/walkL.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>6</frames>
+  <frameInterval>70</frameInterval>
+  <speedX>-200</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+        <chunk>
+      <size>9</size>
+      <distance>200</distance>
+    </chunk>
+</walkL>
+<grimDeath>
+  <file>images/grim/death.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>17</frames>
+  <frameInterval>170</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+    <chunk>
+      <size>9</size>
+      <distance>200</distance>
+    </chunk>
+</grimDeath>
+
+<spinAttack>
+  <file>images/grim/spinAttack.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>6</frames>
+  <frameInterval>24</frameInterval>
+  <speedX>100</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</spinAttack>
+
+<ghostR>
+  <file>images/ghost/moveRight.png</file>
+  <startLoc x="1" y="500"/>
+  <frames>9</frames>
+  <frameInterval>81</frameInterval>
+  <speedX>100</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+      <chunk>
+      <size>9</size>
+      <distance>200</distance>
+    </chunk>
+</ghostR>
+
+<ghostL>
+  <file>images/ghost/moveLeft.png</file>
+  <startLoc x="1" y="500"/>
+  <frames>9</frames>
+  <frameInterval>81</frameInterval>
+  <speedX>-100</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+      <chunk>
+      <size>9</size>
+      <distance>200</distance>
+    </chunk>
+</ghostL>
+
+</GameData>

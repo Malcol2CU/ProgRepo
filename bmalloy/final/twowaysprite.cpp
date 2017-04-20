@@ -1,0 +1,149 @@
+#include <cmath>
+#include <random>
+#include <functional>
+#include "twowaysprite.h"
+#include "explodingSprite.h"
+#include "gamedata.h"
+#include "renderContext.h"
+
+const float PI = 4.0f*std::atan(1.0f);
+
+using RADRAND_t = decltype(std::bind(std::declval<std::uniform_real_distribution<float> >(),std::declval<std::mt19937>()));
+using NORRAND_t = decltype(std::bind(std::declval<std::normal_distribution<float> >(),std::declval<std::mt19937>()));
+
+std::mt19937 getRand(){
+  static std::random_device rd;
+  return std::mt19937(rd());
+}
+
+RADRAND_t getRadianDist(){
+  return std::bind(std::uniform_real_distribution<float>(0.0f,2.0f*PI),getRand());
+}
+
+NORRAND_t getNormalDist(float u, float dev){
+  return std::bind(std::normal_distribution<float>(u,dev),getRand());
+}
+
+Vector2f TwoWaySprite::makeVelocity(int vx, int vy) const {
+  static auto rad = getRadianDist();
+  auto nor = getNormalDist(vx,vy);
+
+  float v_rad = rad();
+  float v_mag = nor();
+
+  return v_mag*Vector2f(std::cos(v_rad),std::sin(v_rad));
+}
+
+void TwoWaySprite::makePosition(int vx, int vy) {
+  static auto rad = getRadianDist();
+  auto nor = getNormalDist(vx,vy);
+
+  float v_rad = rad();
+  float v_mag = nor();
+
+  const Vector2f vec( v_mag*Vector2f(1,std::sin(v_rad)));
+  setPosition(vec);
+}
+
+
+void TwoWaySprite::advanceFrame(Uint32 ticks) {
+	timeSinceLastFrame += ticks;
+	if (timeSinceLastFrame > frameInterval) {
+    currentFrame = (currentFrame+1) % numberOfFrames;
+		timeSinceLastFrame = 0;
+	}
+}
+
+TwoWaySprite::TwoWaySprite( const std::string& name) :
+  Drawable(name+"R", 
+           Vector2f(Gamedata::getInstance().getXmlInt(name+"R/startLoc/x"), 
+                    Gamedata::getInstance().getXmlInt(name+"R/startLoc/y")), 
+           makeVelocity(Gamedata::getInstance().getXmlInt(name+"R/speedX"),
+                    10)
+           ),
+  frames( RenderContext::getInstance()->getFrames(name+"R") ),
+  rightFrames(frames),
+  leftFrames(RenderContext::getInstance()->getFrames(name+"L")),
+  currentFrame(0),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"R/frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"R/frameInterval")),
+  timeSinceLastFrame( 0 ),
+  worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  frameWidth(frames[0]->getWidth()),
+  frameHeight(frames[0]->getHeight()),
+  scale(1),
+  exp(false),
+  alive(true),
+  expSprite(new Sprite("ghostR"))
+{ 
+  if(getVelocityX() < 0.0) frames = leftFrames;
+}
+
+TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
+  Drawable(s), 
+  frames(s.frames),
+  rightFrames(s.rightFrames),
+  leftFrames(s.leftFrames),
+  currentFrame(s.currentFrame),
+  numberOfFrames( s.numberOfFrames ),
+  frameInterval( s.frameInterval ),
+  timeSinceLastFrame( s.timeSinceLastFrame ),
+  worldWidth( s.worldWidth ),
+  worldHeight( s.worldHeight ),
+  frameWidth( s.frameWidth ),
+  frameHeight( s.frameHeight ),
+  scale(1),
+  exp(false),
+  alive(true),
+  expSprite(new Sprite("ghostR"))
+  { }
+
+inline namespace{
+  constexpr float SCALE_EPSILON = 2e-7;
+}
+
+void TwoWaySprite::draw() const { 
+  if(exp) expSprite -> draw();
+  else{
+	  if(getScale() < SCALE_EPSILON) return;
+	  frames[currentFrame]->draw(getX(), getY(), scale); 
+  }
+}
+
+void TwoWaySprite::update(Uint32 ticks) { 
+	if(exp) expSprite -> update(ticks);
+	else{
+		advanceFrame(ticks);
+		Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+		setPosition(getPosition() + incr);
+
+		if ( getY() < 0) {
+		setVelocityY( fabs( getVelocityY() ) );
+		}
+		if ( getY() > worldHeight-scale*frameHeight) {
+		setVelocityY( -fabs( getVelocityY() ) );
+		}
+
+		if ( getX() < 0) {
+		setVelocityX( fabs( getVelocityX() ) );
+		frames = rightFrames;
+		}
+		if ( getX() > worldWidth-scale*frameWidth) {
+		setVelocityX( -fabs( getVelocityX() ) );
+		frames = leftFrames;
+		}  
+	}
+}
+
+void TwoWaySprite::explode(){
+        alive = false;
+	exp = true;
+	expSprite->setFrame(frames[currentFrame]);
+	expSprite->setY(getY());
+	expSprite->setX(getX());
+	Drawable* boom = 
+	new ExplodingSprite(*static_cast<Sprite*>(expSprite));
+	delete expSprite;
+	expSprite = boom;
+}
