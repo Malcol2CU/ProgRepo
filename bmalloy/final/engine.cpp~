@@ -95,7 +95,7 @@ void Engine::draw() const {
   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++) sprites[x]->draw();
   
   grim->draw();
-  //hud->draw(1, 1, 300,200, clock.getFps(), clock.getSeconds());
+  hud->draw(1, 1, 300,200, clock.getFps(), clock.getSeconds());
   viewport.draw();
   
   SDL_RenderPresent(renderer);
@@ -165,7 +165,7 @@ void Engine::play() {
       clock.incrFrame();
       draw();
       update(ticks);
-            checkForCollisions();
+      checkForCollisions();
       if ( makeVideo ) {
         frameGen.makeFrame();
       }

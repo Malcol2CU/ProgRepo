@@ -22,6 +22,8 @@ OBJS = \
 	explodingSprite.o\
 	multisprite.o \
 	twowaysprite.o\
+	bullet.o\
+	bulletPool.o\
 	player.o \
 	collisionStrategy.o\
 	vector2f.o \

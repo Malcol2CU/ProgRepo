@@ -9,7 +9,6 @@
 #include "twowaysprite.h"
 #include "gamedata.h"
 #include "engine.h"
-#include "collisionStrategy.h"
 
 std::string sheets[] = {"walk", "jump", "spinAttack", "grimDeath"};
 
@@ -165,7 +164,7 @@ void Engine::play() {
       clock.incrFrame();
       draw();
       update(ticks);
-            checkForCollisions();
+      checkForCollisions();
       if ( makeVideo ) {
         frameGen.makeFrame();
       }

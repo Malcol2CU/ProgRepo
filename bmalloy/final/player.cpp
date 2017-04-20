@@ -12,14 +12,30 @@ Player::Player(const std::string& walk, const std::string& jump, const std::stri
   cycle(false),
   attacking(false),
   alive(true),
-  initVelocity(getVelocityX())
+  initVelocity(getVelocityX()),
+  bulletName("bullet"),
+  bullets( bulletName ),
+  minSpeed( Gamedata::getInstance().getXmlInt(bulletName+"/speedX") )
 { std::cout<< "player created" << std::endl;}
 
 Player::Player(const Player& s) :
-  TwoWaySprite(s)
+  TwoWaySprite(s),
+  jumpRight(s.jumpRight),
+  jumpLeft( s.jumpLeft),
+  attack1(s.attack1),
+  death(s.death),
+  current(s.current),
+  cycle(false),
+  attacking(false),
+  alive(true),
+  initVelocity(getVelocityX()),
+  bulletName("bullet"),
+  bullets( s.bullets ),
+  minSpeed( Gamedata::getInstance().getXmlInt(bulletName+"/speedX") )
   { }
 
 void Player::update(Uint32 ticks) { 
+  bullets.update(ticks);
   if(currentFrame == numberOfFrames-1 && alive){ 
     cycle = attacking = false; currentFrame = 0; frames = current; 
     setVelocityX(initVelocity); setVelocityY(0.0);
@@ -34,6 +50,11 @@ void Player::update(Uint32 ticks) {
 bool Player::isAttacking(){
     if(attacking) return true;
     else return false;
+}
+
+void Player::draw() const { 
+  TwoWaySprite::draw();
+  bullets.draw();
 }
 
 void Player::die(){
@@ -84,4 +105,17 @@ void Player::attack(){
   frames = attack1;
   attacking = true;
   cycle =  true;
+}
+
+void Player::shoot() { 
+  float x = getX()+getFrame()->getWidth();
+  float y = getY()+getFrame()->getHeight()/2;
+  // I'm not adding minSpeed to y velocity:
+  bullets.shoot( Vector2f(x, y), 
+    Vector2f(minSpeed+getVelocityX(), 0)
+  );
+}
+
+bool Player::collidedWith(const Drawable* obj) const {
+  return bullets.collidedWith( obj );
 }

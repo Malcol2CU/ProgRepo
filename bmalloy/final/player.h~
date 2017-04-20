@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include "twowaysprite.h"
+#include "bulletPool.h"
 
 class Player : public TwoWaySprite {
   public:
@@ -11,12 +12,12 @@ class Player : public TwoWaySprite {
 	Player(const Player&);
 
 	virtual void update(Uint32 ticks);
+	virtual void draw() const;
+	
 	void processKeyState(const Uint8* keystate);
-        void isAlive(){return alive;}
-	void moveLeft();
-	void moveRight();
-	void jump();
-	void attack();
+        bool isAlive(){return alive;}
+	void shoot();
+	bool collidedWith(const Drawable*) const;
 	void stop();
 	bool isAttacking();
 	void die();
@@ -25,5 +26,15 @@ class Player : public TwoWaySprite {
 	std::vector<Frame *> jumpRight, jumpLeft, attack1, death, current;
         bool cycle, attacking, alive;
 	float initVelocity;
+	std::string bulletName;
+  	BulletPool bullets;
+ 	float minSpeed;
+	
+	
+	void moveLeft();
+	void moveRight();
+	void jump();
+	void attack();
+	void shoot();
 };
 #endif

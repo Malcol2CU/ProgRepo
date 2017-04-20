@@ -23,6 +23,9 @@ OBJS = \
 	multisprite.o \
 	twowaysprite.o\
 	player.o \
+	bullet.o\
+	bulletPool.o\
+	collisionStrategy.o\
 	vector2f.o \
 	clock.o \
 	engine.o \

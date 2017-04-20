@@ -68,6 +68,21 @@
   <alpha>0</alpha>
 </font>
 
+
+<bullet>
+  <file>images/grim/bullet.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>18</frames>
+  <frameInterval>180</frameInterval>
+   <interval>300</interval>
+  <distance>320</distance>
+  <startLoc x="100" y="100"/>
+  <speedX>200</speedX>
+  <speedY>0</speedY>
+  <strategy>rectangular</strategy>
+  <transparency>true</transparency>
+</bullet>
+
 <jumpR>
   <file>images/grim/jump.png</file>
   <startLoc x="1" y="700"/>
