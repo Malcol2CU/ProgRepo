@@ -18,7 +18,7 @@ public:
   
   inline float getScale()const{ return scale; }
   void  setScale(float s){ scale = s; }
-  Vector2f makeVelocity(int, int) const;
+  void makeVelocity(int, int) const;
   void makePosition(int, int);
 
   void explode();

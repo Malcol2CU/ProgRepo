@@ -1,6 +1,7 @@
 #include "player.h"
 #include "gamedata.h"
 #include "renderContext.h"
+#include <cmath>
 
 Player::Player(const std::string& walk, const std::string& jump, const std::string& a1,const std::string& death):
   TwoWaySprite(walk),
@@ -111,9 +112,12 @@ void Player::shoot() {
   float x = getX()+getFrame()->getWidth();
   float y = getY()+getFrame()->getHeight()/6;
   // I'm not adding minSpeed to y velocity:
+  if(current == rightFrames) abs(minSpeed);
+  else if(current == leftFrames) minSpeed *= -1;
   bullets.shoot( Vector2f(x, y), 
     Vector2f(minSpeed+getVelocityX(), 0)
   );
+  
 }
 
 bool Player::collidedWith(const Drawable* obj) const {

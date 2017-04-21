@@ -70,13 +70,14 @@
 
 
 <bullet>
-  <file>images/grim/bullet.png</file>
-  <startLoc x="1" y="700"/>
-  <frames>18</frames>
-  <frameInterval>180</frameInterval>
+  <file>images/grim/bullet2.png</file>
+  <startLoc x="1" y="500"/>
+  <frames>2</frames>
+  <frameInterval>55</frameInterval>
+   <interval>300</interval>
   <distance>320</distance>
   <startLoc x="100" y="100"/>
-  <speedX>200</speedX>
+  <speedX>300</speedX>
   <speedY>0</speedY>
   <strategy>rectangular</strategy>
   <transparency>true</transparency>

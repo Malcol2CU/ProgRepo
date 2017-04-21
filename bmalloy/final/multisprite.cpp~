@@ -102,7 +102,7 @@ Vector2f MultiSprite::makeVelocity(int vx, int vy) const {
 
 void MultiSprite::makePosition(int vx, int vy) {
   float newvx = Gamedata::getInstance().getRandInRange(vx-300,vx+300);
-  float newvy = Gamedata::getInstance().getRandInRange(vy-200,vy+50);
+  float newvy = Gamedata::getInstance().getRandInRange(vy-50,vy+50);
 
   const Vector2f vec(newvy, newvx);
   setPosition(vec);

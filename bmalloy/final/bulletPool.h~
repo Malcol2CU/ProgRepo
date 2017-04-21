@@ -15,7 +15,7 @@ public:
   unsigned int freeCount()  const { return freeList.size(); }
   bool shooting() const { return bulletList.empty(); }
   bool collidedWith(const Drawable* obj) const;
-
+  void init();
   
 private:
   std::string name;
@@ -26,5 +26,4 @@ private:
   mutable std::list<Bullet> freeList;   // when a Bullet is out of range
 
   BulletPool& operator=(const BulletPool&);   // (Item 6)
-  void init();
 };

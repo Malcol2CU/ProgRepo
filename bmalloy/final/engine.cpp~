@@ -9,7 +9,6 @@
 #include "twowaysprite.h"
 #include "gamedata.h"
 #include "engine.h"
-#include "collisionStrategy.h"
 
 std::string sheets[] = {"walk", "jump", "spinAttack", "grimDeath"};
 
@@ -56,29 +55,30 @@ Engine::Engine() :
   std::mt19937 mt(rd());
   std::normal_distribution<float> dist(u,d);
 
-  unsigned int n = 50;
+  unsigned int n = 20;
   for ( unsigned int i = 0; i < n; ++i ) {
     auto* s = new TwoWaySprite("ghost");
-    s->makeVelocity(100, 0);
+    s->makeVelocity(100, 200);
     float scale = dist(mt);
     while(scale < 0.1f) scale = dist(mt);
     s->setScale(scale);
-    s->makePosition(500,100);
+    s->makePosition(500,500);
     sprites.push_back(s);
   }
   std::vector<TwoWaySprite*>::iterator ptr = sprites.begin();
-  ++ptr;
   sort(ptr, sprites.end(), SpriteLess());
   std::cout << "Loading complete" << std::endl;
   switchSprite();
 }
 
 void Engine::checkForCollisions() {
-   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++) 
-    if(strategy->execute(*grim, *sprites[x]) && sprites[x]->isAlive() && grim->isAlive()){
-    	if(grim->isAttacking()) sprites[x]->explode();
-    	else grim->die();
-    }   
+   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++){ 
+   	 if(grim->collidedWith(sprites[x]) && sprites[x]->isAlive()) sprites[x]->explode(); 
+   	 if(strategy->execute(*grim, *sprites[x]) && sprites[x]->isAlive() && grim->isAlive()){
+   	 	if(grim->isAttacking()) sprites[x]->explode();
+   	 	else grim->die();
+   	 }   
+    }
 }
 
 void Engine::draw() const {
@@ -156,10 +156,9 @@ void Engine::play() {
 		      std::cout << "Terminating frame capture" << std::endl;
 		      makeVideo = false;
 		    }
-		}
-      if (grim->isAlive())grim->processKeyState(keystate);
       }
-    
+    }
+   if (grim->isAlive())grim->processKeyState(keystate);
    ticks = clock.getElapsedTicks();
     if ( ticks > 0 ) {
       clock.incrFrame();
