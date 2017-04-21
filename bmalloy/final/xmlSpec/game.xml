@@ -71,9 +71,9 @@
 
 <bullet>
   <file>images/grim/bullet.png</file>
-  <startLoc x="1" y="700"/>
+  <startLoc x="1" y="500"/>
   <frames>18</frames>
-  <frameInterval>180</frameInterval>
+  <frameInterval>36</frameInterval>
    <interval>300</interval>
   <distance>320</distance>
   <startLoc x="100" y="100"/>

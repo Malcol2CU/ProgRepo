@@ -1,11 +1,11 @@
 #include <iostream>
-#include "sprite.h"
+#include "multisprite.h"
 #include "gamedata.h"
 
-class Bullet : public Sprite {
+class Bullet : public MultiSprite {
 public:
   explicit Bullet(const string& name) :
-    Sprite(name), 
+    MultiSprite(name), 
     distance(0), 
     maxDistance(Gamedata::getInstance().getXmlInt(name+"/distance")), 
     tooFar(false) 

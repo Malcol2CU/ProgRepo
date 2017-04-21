@@ -66,7 +66,7 @@ void Player::die(){
 
 void Player::processKeyState(const Uint8* keystate){
     if ( keystate[SDL_SCANCODE_SPACE] ) {
-    	attack();
+    	shoot();
 	setVelocityX(0.0);
         if ( keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT] )  setVelocityX(200.0);
         else if( keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT] ) setVelocityX(-200.0);
@@ -109,7 +109,7 @@ void Player::attack(){
 
 void Player::shoot() { 
   float x = getX()+getFrame()->getWidth();
-  float y = getY()+getFrame()->getHeight()/2;
+  float y = getY()+getFrame()->getHeight()/6;
   // I'm not adding minSpeed to y velocity:
   bullets.shoot( Vector2f(x, y), 
     Vector2f(minSpeed+getVelocityX(), 0)
