@@ -10,11 +10,11 @@ MultiSprite::MultiSprite( const std::string& name) :
            makeVelocity(Gamedata::getInstance().getXmlInt(name+"/speedX"),
                     Gamedata::getInstance().getXmlInt(name+"/speedY"))
            ),
-  frames( RenderContext::getInstance()->getFrames(name) ),
+  frames( RenderContext::getInstance()->getFrames(name+"/move/moveR/") ),
 
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
-  frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval")),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/move/frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"/move/frameInterval")),
   timeSinceLastFrame( 0 ),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
@@ -106,5 +106,4 @@ void MultiSprite::makePosition(int vx, int vy) {
 
   const Vector2f vec(newvy, newvx);
   setPosition(vec);
-  std::cout << vec << std::endl;
 }

@@ -9,8 +9,9 @@
 #include "twowaysprite.h"
 #include "gamedata.h"
 #include "engine.h"
+#include "collisionStrategy.h"
 
-std::string sheets[] = {"walk", "jump", "spinAttack", "grimDeath"};
+std::string sheets[] = {"Grim", "jump", "spinAttack", "grimDeath"};
 
 class SpriteLess {
 public:
@@ -57,7 +58,7 @@ Engine::Engine() :
 
   unsigned int n = 20;
   for ( unsigned int i = 0; i < n; ++i ) {
-    auto* s = new TwoWaySprite("ghost");
+    auto* s = new TwoWaySprite("Ghost");
     s->makeVelocity(100, 200);
     float scale = dist(mt);
     while(scale < 0.1f) scale = dist(mt);
@@ -72,13 +73,13 @@ Engine::Engine() :
 }
 
 void Engine::checkForCollisions() {
-   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++){ 
+/*   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++){ 
    	 if(grim->collidedWith(sprites[x]) && sprites[x]->isAlive()) sprites[x]->explode(); 
    	 if(strategy->execute(*grim, *sprites[x]) && sprites[x]->isAlive() && grim->isAlive()){
    	 	if(grim->isAttacking()) sprites[x]->explode();
    	 	else grim->die();
    	 }   
-    }
+  }*/  
 }
 
 void Engine::draw() const {
@@ -103,7 +104,6 @@ void Engine::draw() const {
 
 void Engine::update(Uint32 ticks) {
   for(auto* s : sprites) s->update(ticks);
-  grim->update(ticks);
 
   layer6.update();
   layer5.update();
@@ -158,7 +158,7 @@ void Engine::play() {
 		    }
       }
     }
-   if (grim->isAlive())grim->processKeyState(keystate);
+   if (grim->isAlive())grim->processKeyState(keystate, ticks);
    ticks = clock.getElapsedTicks();
     if ( ticks > 0 ) {
       clock.incrFrame();

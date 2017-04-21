@@ -3,17 +3,17 @@
 #include "renderContext.h"
 
 TwoWaySprite::TwoWaySprite( const std::string& name) :
-  MultiSprite(name+"R"),
+  MultiSprite(name),
   rightFrames(frames),
-  leftFrames(RenderContext::getInstance()->getFrames(name+"L")),
-  alive(true),
-  { if(getVelocityX() < 0.0) MultiSprite::frames = leftFrames; }
+  leftFrames(RenderContext::getInstance()->getFrames(name++"/move/moveL/")),
+  alive(true)
+  { if(getVelocityX() < 0.0) frames = leftFrames; }
 
 TwoWaySprite::TwoWaySprite(const TwoWaySprite& s) :
   MultiSprite(s), 
   rightFrames(s.rightFrames),
   leftFrames(s.leftFrames),
-  alive(true),
+  alive(true)
   { if(getVelocityX() < 0.0) frames = leftFrames; }
   
 void TwoWaySprite::update(Uint32 ticks) { 

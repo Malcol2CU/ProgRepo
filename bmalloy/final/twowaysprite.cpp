@@ -3,9 +3,9 @@
 #include "renderContext.h"
 
 TwoWaySprite::TwoWaySprite( const std::string& name) :
-  MultiSprite(name+"R"),
+  MultiSprite(name),
   rightFrames(frames),
-  leftFrames(RenderContext::getInstance()->getFrames(name+"L")),
+  leftFrames(RenderContext::getInstance()->getFrames(name+"/move/moveL/")),
   alive(true)
   { if(getVelocityX() < 0.0) frames = leftFrames; }
 
