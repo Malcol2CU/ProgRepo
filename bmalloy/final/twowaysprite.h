@@ -13,11 +13,10 @@ public:
   virtual ~TwoWaySprite(){}
   virtual void update(Uint32);
   
-  bool isAlive(){return alive;}
+
 
 protected:
   std::vector<Frame *> rightFrames, leftFrames;
-  bool alive;
 
   TwoWaySprite& operator=(const TwoWaySprite&) = delete;
 };

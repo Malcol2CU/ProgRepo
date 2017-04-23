@@ -9,7 +9,7 @@ public:
     distance(0), 
     maxDistance(Gamedata::getInstance().getXmlInt(name+"/distance")), 
     tooFar(false) 
-  { }
+  { setVelocity(Vector2f(200,0));}
   virtual void update(Uint32 ticks);
   bool goneTooFar() const { return tooFar; }
   void reset() {

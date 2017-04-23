@@ -17,14 +17,6 @@ BulletPool::~BulletPool() {
   delete strategy;
 }
 
-void BulletPool::init(){
-  int count = 5;
-  for(int x = 0; x < count; x++){
-    Bullet b(name);
-    freeList.push_back(b);
-  }
-}
-
 BulletPool::BulletPool(const std::string& n) :
   name(n),
   strategy( getStrategy(name) ),
@@ -32,7 +24,7 @@ BulletPool::BulletPool(const std::string& n) :
   timeSinceLastFrame( 0 ),
   bulletList(),
   freeList()
-{ init();}
+{ }
 
 BulletPool::BulletPool(const BulletPool& b) :
   name(b.name),
@@ -41,7 +33,7 @@ BulletPool::BulletPool(const BulletPool& b) :
   timeSinceLastFrame( b.timeSinceLastFrame ),
   bulletList(b.bulletList), 
   freeList(b.freeList)
-{ init();}
+{ }
 
 bool BulletPool::collidedWith(const Drawable* obj) const {
   std::list<Bullet>::iterator ptr = bulletList.begin();
@@ -57,9 +49,16 @@ bool BulletPool::collidedWith(const Drawable* obj) const {
 }
 
 void BulletPool::shoot(const Vector2f& position, const Vector2f& velocity) {
-    if (timeSinceLastFrame > frameInterval) {
+	if (timeSinceLastFrame > frameInterval) {
     // If no bullets in pool, make one:
-    if ( !freeList.empty() ) {
+    if ( freeList.empty() ) {
+      Bullet b(name);
+      b.setScale(1);
+      b.setPosition( position );
+      b.setVelocity( velocity );
+      bulletList.push_back( b );
+    }
+    else {
       Bullet b = freeList.front();
       freeList.pop_front();
       b.reset();
@@ -67,8 +66,8 @@ void BulletPool::shoot(const Vector2f& position, const Vector2f& velocity) {
       b.setPosition(position);
       bulletList.push_back( b );
     }
-   timeSinceLastFrame = 0;
-  }
+		timeSinceLastFrame = 0;
+	}
 }
 
 void BulletPool::draw() const { 

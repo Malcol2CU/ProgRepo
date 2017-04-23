@@ -6,6 +6,7 @@
 #include "viewport.h"
 #include "frameGenerator.h"
 #include "player.h"
+#include "enemy.h"
 #include "hud.h"
 
 class CollisionStrategy;
@@ -32,7 +33,7 @@ private:
   
   Viewport& viewport;
 
-  std::vector<TwoWaySprite*> sprites;
+  std::vector<Enemy*> sprites;
   Player* grim; 
   
   bool makeVideo;

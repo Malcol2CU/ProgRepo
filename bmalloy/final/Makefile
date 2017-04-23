@@ -25,6 +25,7 @@ OBJS = \
 	bullet.o\
 	bulletPool.o\
 	player.o \
+	enemy.o\
 	collisionStrategy.o\
 	vector2f.o \
 	clock.o \

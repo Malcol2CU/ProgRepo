@@ -10,11 +10,11 @@ MultiSprite::MultiSprite( const std::string& name) :
            makeVelocity(Gamedata::getInstance().getXmlInt(name+"/speedX"),
                     Gamedata::getInstance().getXmlInt(name+"/speedY"))
            ),
-  frames( RenderContext::getInstance()->getFrames(name+"/move/moveR/") ),
+  frames( RenderContext::getInstance()->getFrames(name) ),
 
   currentFrame(0),
-  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/move/frames") ),
-  frameInterval( Gamedata::getInstance().getXmlInt(name+"/move/frameInterval")),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval")),
   timeSinceLastFrame( 0 ),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
@@ -35,7 +35,10 @@ MultiSprite::MultiSprite(const MultiSprite& s) :
   worldWidth( s.worldWidth ),
   worldHeight( s.worldHeight ),
   frameWidth( s.frameWidth ),
-  frameHeight( s.frameHeight )
+  frameHeight( s.frameHeight ),
+  scale(1),
+  isExploding(false),
+  explodeSprite(s.explodeSprite)
   { }
 
 inline namespace{
