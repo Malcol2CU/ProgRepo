@@ -76,11 +76,32 @@ void IOmod::writeText(const std::string& msg, int x, int y, SDL_Color color) con
   
   SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
+
   textWidth = surface->w;
   textHeight = surface->h;
   SDL_FreeSurface(surface);
   SDL_Rect dst = {x, y, textWidth, textHeight};
+  
+  SDL_RenderCopy(renderer, texture, NULL, &dst);
+  SDL_DestroyTexture(texture);
+}
 
+
+void IOmod::writeText(const std::string& msg, int x, int y, SDL_Color color, Uint8 alpha) const {
+  int textWidth;
+  int textHeight;
+
+  SDL_Surface* surface = 
+    TTF_RenderText_Blended(font, msg.c_str(), color);
+  
+  SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+  SDL_SetTextureAlphaMod(texture, alpha);
+
+  textWidth = surface->w;
+  textHeight = surface->h;
+  SDL_FreeSurface(surface);
+  SDL_Rect dst = {x, y, textWidth, textHeight};
+  
   SDL_RenderCopy(renderer, texture, NULL, &dst);
   SDL_DestroyTexture(texture);
 }

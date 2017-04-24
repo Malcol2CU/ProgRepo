@@ -12,7 +12,6 @@ class Hud{
     ~Hud();
     void draw(int, int, int, int, int, int);
     void display();
-
   private:
     SDL_Rect hud;
     SDL_Renderer * const renderer;

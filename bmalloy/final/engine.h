@@ -15,7 +15,7 @@ class Engine {
 public:
   Engine();
   ~Engine();
-  void play();
+  bool play();
   void switchSprite();
 
 

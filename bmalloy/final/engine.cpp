@@ -7,6 +7,7 @@
 #include "gamedata.h"
 #include "engine.h"
 
+
 std::string sheets[] = {"walk", "spinAttack", "grimDeath"};
 
 class SpriteLess {
@@ -52,7 +53,7 @@ Engine::Engine() :
   std::mt19937 mt(rd());
   std::normal_distribution<float> dist(u,d);
 
-  unsigned int n = 50;
+  unsigned int n = 0;
   for ( unsigned int i = 0; i < n; ++i ) {
     auto* s = new Enemy("ghost");
     s->makeVelocity(100, 200);
@@ -74,7 +75,7 @@ void Engine::checkForCollisions() {
    	 if(grim->collidedWith(sprites[x]) && sprites[x]->isAlive()) sprites[x]->die(); 
    	 if(strategy->execute(*grim, *sprites[x]) && sprites[x]->isAlive() && grim->isAlive()){
    	 	if(grim->isAttacking()) sprites[x]->die();
-   	 	else grim->die();
+   	 	else grim->dropHealth(); sprites[x]->die();
    	 }   
    } 
 }
@@ -101,7 +102,7 @@ void Engine::draw() const {
 
 void Engine::update(Uint32 ticks) {
   for(auto* s : sprites) s->update(ticks);
-
+  grim->update(ticks);
   layer6.update();
   layer5.update();
   layer4.update();
@@ -115,8 +116,7 @@ void Engine::update(Uint32 ticks) {
 void Engine::switchSprite(){
   Viewport::getInstance().setObjectToTrack(grim);
 }
-
-void Engine::play() {
+bool Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
@@ -168,4 +168,5 @@ void Engine::play() {
     }
    
   }
+return false;
 }

@@ -18,6 +18,7 @@ void Hud::display(){
    alpha = 255;
 }
 
+
 void Hud::draw(int x, int y, int w, int h, int fps, int ticks){
     if (ticks > 3)
        if (alpha != 0) alpha--;
@@ -42,15 +43,15 @@ void Hud::draw(int x, int y, int w, int h, int fps, int ticks){
      
     if (alpha == 0) return;
 	io.writeText("Malcolm Miller(Malcol2)",
-	1,455, color);
+	1,455, color, alpha);
 	strm << "fps: " << fps << " Time: " << ticks; 
     strm1 <<"w & Up Arrow: Jump"; 
     strm2 << "d & ->: Move right";
     strm3 << "a & <-: Move left"; 
     strm4 << "Space Bar: Attack";
-	io.writeText(strm.str(), 10, 10, color);
-	io.writeText(strm1.str(), 10, 40, color);
-	io.writeText(strm2.str(), 10, 70, color);
-	io.writeText(strm3.str(), 10, 100, color);
-	io.writeText(strm4.str(), 10, 130, color);
+	io.writeText(strm.str(), 10, 10, color, alpha);
+	io.writeText(strm1.str(), 10, 40, color, alpha);
+	io.writeText(strm2.str(), 10, 70, color, alpha);
+	io.writeText(strm3.str(), 10, 100, color, alpha);
+	io.writeText(strm4.str(), 10, 130, color, alpha);
 }
