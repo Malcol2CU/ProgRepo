@@ -53,7 +53,7 @@ Engine::Engine() :
   std::mt19937 mt(rd());
   std::normal_distribution<float> dist(u,d);
 
-  unsigned int n = 0;
+  unsigned int n = 50;
   for ( unsigned int i = 0; i < n; ++i ) {
     auto* s = new Enemy("ghost");
     s->makeVelocity(100, 200);

@@ -18,10 +18,10 @@ Menu::Menu() :
 {   }
 
 Menu::~Menu(){
+  delete RenderContext::getInstance();
   SDL_DestroyTexture(bg);
   TTF_CloseFont(font);
-  delete RenderContext::getInstance();
- // TTF_Quit(); 
+  TTF_Quit(); 
 }
 
 

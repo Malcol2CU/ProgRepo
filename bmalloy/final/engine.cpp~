@@ -4,14 +4,11 @@
 #include <string>
 #include <random>
 #include <iomanip>
-#include "sprite.h"
-#include "multisprite.h"
-#include "twowaysprite.h"
 #include "gamedata.h"
 #include "engine.h"
-#include "collisionStrategy.h"
 
-std::string sheets[] = {"Grim", "jump", "spinAttack", "grimDeath"};
+
+std::string sheets[] = {"walk", "spinAttack", "grimDeath"};
 
 class SpriteLess {
 public:
@@ -41,7 +38,7 @@ Engine::Engine() :
   layer1("layer1", Gamedata::getInstance().getXmlInt("layer1/factor") ),
   viewport( Viewport::getInstance() ),
   sprites(),
-  grim(new Player(sheets[0], sheets[1], sheets[2], sheets[3])),
+  grim(new Player(sheets[0], sheets[1], sheets[2])),
   makeVideo( false ),
   hud(new Hud()),
   strategy( new PerPixelCollisionStrategy )
@@ -56,9 +53,9 @@ Engine::Engine() :
   std::mt19937 mt(rd());
   std::normal_distribution<float> dist(u,d);
 
-  unsigned int n = 20;
+  unsigned int n = 0;
   for ( unsigned int i = 0; i < n; ++i ) {
-    auto* s = new TwoWaySprite("ghost");
+    auto* s = new Enemy("ghost");
     s->makeVelocity(100, 200);
     float scale = dist(mt);
     while(scale < 0.1f) scale = dist(mt);
@@ -66,20 +63,21 @@ Engine::Engine() :
     s->makePosition(500,600);
     sprites.push_back(s);
   }
-  std::vector<TwoWaySprite*>::iterator ptr = sprites.begin();
+  std::vector<Enemy*>::iterator ptr = sprites.begin();
   sort(ptr, sprites.end(), SpriteLess());
   std::cout << "Loading complete" << std::endl;
   switchSprite();
 }
 
 void Engine::checkForCollisions() {
-/*   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++){ 
-   	 if(grim->collidedWith(sprites[x]) && sprites[x]->isAlive()) sprites[x]->explode(); 
+   for(int x = 3*(sprites.size()/5); x < static_cast<int>(4*(sprites.size()/5)); x++){ 
+         sprites[x]->attack(*grim);
+   	 if(grim->collidedWith(sprites[x]) && sprites[x]->isAlive()) sprites[x]->die(); 
    	 if(strategy->execute(*grim, *sprites[x]) && sprites[x]->isAlive() && grim->isAlive()){
-   	 	if(grim->isAttacking()) sprites[x]->explode();
-   	 	else grim->die();
+   	 	if(grim->isAttacking()) sprites[x]->die();
+   	 	else grim->dropHealth(); sprites[x]->die();
    	 }   
-  }*/  
+   } 
 }
 
 void Engine::draw() const {
@@ -104,7 +102,7 @@ void Engine::draw() const {
 
 void Engine::update(Uint32 ticks) {
   for(auto* s : sprites) s->update(ticks);
-
+  grim->update(ticks);
   layer6.update();
   layer5.update();
   layer4.update();
@@ -118,8 +116,7 @@ void Engine::update(Uint32 ticks) {
 void Engine::switchSprite(){
   Viewport::getInstance().setObjectToTrack(grim);
 }
-
-void Engine::play() {
+bool Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
@@ -158,7 +155,7 @@ void Engine::play() {
 		    }
       }
     }
-   if (grim->isAlive())grim->processKeyState(keystate, ticks);
+   grim->processKeyState(keystate, ticks);
    ticks = clock.getElapsedTicks();
     if ( ticks > 0 ) {
       clock.incrFrame();
@@ -171,4 +168,5 @@ void Engine::play() {
     }
    
   }
+return false;
 }
