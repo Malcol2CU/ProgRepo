@@ -88,6 +88,26 @@
   <transparency>true</transparency>
 </jumpL>
 
+<idleR>
+  <file>images/grim/idleR.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>4</frames>
+  <frameInterval>52</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</idleR>
+
+<idleL>
+  <file>images/grim/idleL.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>4</frames>
+  <frameInterval>52</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</idleL>
+
 <walkR>
   <file>images/grim/walkR.png</file>
   <startLoc x="1" y="700"/>

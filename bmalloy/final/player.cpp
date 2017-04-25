@@ -7,6 +7,8 @@ Player::Player(const std::string& walk, const std::string& a1, const std::string
   TwoWaySprite(walk),
   initialV(Vector2f(Gamedata::getInstance().getXmlInt(walk+"R/speedX"),
                     Gamedata::getInstance().getXmlInt(walk+"R/speedY"))),
+  idleR(RenderContext::getInstance()->getFrames("idleR")),
+  idleL(RenderContext::getInstance()->getFrames("idleL")),                  
   spinAttack(RenderContext::getInstance()->getFrames(a1)),
   deathFrames(RenderContext::getInstance()->getFrames(death)),
   movingRight(true),
@@ -15,7 +17,10 @@ Player::Player(const std::string& walk, const std::string& a1, const std::string
   bullets( bulletName ),
   minSpeed( Gamedata::getInstance().getXmlInt(bulletName+"/speedX") ),
   health(1.0)
-  {frames = rightFrames; currentFrame = numberOfFrames-1; }
+  {stop(); 
+  setVelocity(Vector2f(Gamedata::getInstance().getXmlInt("idleR/speedX"),
+                    Gamedata::getInstance().getXmlInt("idleR/speedY")));
+  }
 
 Player::Player(const Player& s) :
   TwoWaySprite(s),
@@ -40,6 +45,7 @@ void Player::processKeyState(const Uint8* keystate, Uint32 ticks){
 	if (currentFrame == numberOfFrames-1) currentFrame =0;
         attack(1);
   }
+  setNumFrames();
 }
 
 
@@ -62,8 +68,9 @@ void Player::attack(int attack){
 void Player::stop(){
    setVelocity(Vector2f(0.0,0.0));
    if(alive){
-      if(movingRight) frames = rightFrames;
-      else frames = leftFrames;
+      if(movingRight) frames = idleR;
+      else frames = idleL;
+      setNumFrames();
    }
 }
 

@@ -12,13 +12,14 @@ public:
 
    virtual void update(Uint32 ticks){ 
       bullets.update(ticks);
-      if(currentFrame == numberOfFrames-1) stop();
-      else TwoWaySprite::update(ticks)	;
+      TwoWaySprite::update(ticks);
+      stop();
    }
    virtual void draw() const{
       RenderHPBar(600, 1, -300,20, health);
       TwoWaySprite::draw();
       bullets.draw();
+      std::cout<< getVelocity() << std::endl;
    }
    virtual bool collidedWith(const Drawable*) const;
    
@@ -30,18 +31,19 @@ public:
 
 private:
    Vector2f initialV;
-   std::vector<Frame *> spinAttack, deathFrames;
+   std::vector<Frame *> idleR, idleL, spinAttack, deathFrames;
    bool movingRight, alive;	
    std::string bulletName;
    BulletPool bullets;
    float minSpeed, health;
-
+   
    void RenderHPBar(int x, int y, int w, int h, float Percent) const;
    void moveLeft();
    void moveRight();
    void attack(int attack);
    void shoot();
    void die();
+   void setNumFrames(){numberOfFrames = frames.size();}
    void stop();
 
    Player& operator=(const Player&) = delete;
