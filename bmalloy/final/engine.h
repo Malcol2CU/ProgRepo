@@ -17,8 +17,8 @@ public:
   ~Engine();
   bool play();
   void switchSprite();
-
-
+void setCharacter(int i);
+void makeFrame(){frameGen.makeFrame();}
 private:
   const RenderContext* rc;
   Clock& clock;
@@ -33,13 +33,14 @@ private:
   
   Viewport& viewport;
 
-  std::vector<Enemy*> sprites;
+  std::vector<Enemy*> sprites, deadSprites;
   Player* grim; 
   
   bool makeVideo;
-
+FrameGenerator frameGen;
   void draw() const;
   void update(Uint32);
+  void initSprites();
   Hud* hud;
   CollisionStrategy* strategy;
   Engine(const Engine&) = delete;

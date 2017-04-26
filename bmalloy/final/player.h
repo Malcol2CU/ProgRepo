@@ -7,7 +7,7 @@
 
 class Player : public TwoWaySprite {
 public:
-   Player(const std::string&, const std::string&, const std::string&);
+   Player(const std::string&, const std::string&, const std::string&, int);
    Player(const Player&);
 
    virtual void update(Uint32 ticks){ 
@@ -25,17 +25,17 @@ public:
    void dropHealth(){health -= .25; if (health == 0.0) die();}
    bool isAlive(){return alive;}
    bool isAttacking(){ return false;}
-   void processKeyState(const Uint8* keystate, Uint32 ticks );
+   void processKeyState(const Uint8* keystate);
 
 
 private:
    Vector2f initialV;
-   std::vector<Frame *> spinAttack, deathFrames;
+   std::vector<Frame *> pAttack, deathFrames;
    bool movingRight, alive;	
    std::string bulletName;
    BulletPool bullets;
    float minSpeed, health;
-
+   int who;
    void RenderHPBar(int x, int y, int w, int h, float Percent) const;
    void moveLeft();
    void moveRight();

@@ -9,7 +9,7 @@
 <period>17</period>
 
 <frameCount>100</frameCount>
-<maxFrames>500</maxFrames>
+<maxFrames>700</maxFrames>
 <username>malcol2</username>
 
 <view>
@@ -201,5 +201,53 @@
       <distance>200</distance>
     </chunk>
 </attackR>
+
+<billyWalkR>
+  <file>images/billy/walkR.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>6</frames>
+  <frameInterval>70</frameInterval>
+  <speedX>200</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</billyWalkR>
+
+<billyWalkL>
+  <file>images/billy/walkL.png</file>
+  <startLoc x="1" y="700"/>
+  <frames>6</frames>
+  <frameInterval>70</frameInterval>
+  <speedX>-200</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</billyWalkL>
+
+<billyGunR>
+  <file>images/billy/gunR.png</file>
+  <startLoc x="1" y="500"/>
+  <frames>1</frames>
+  <frameInterval>11</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+    <chunk>
+      <size>9</size>
+      <distance>200</distance>
+    </chunk>
+</billyGunR>
+
+<billyGunL>
+  <file>images/billy/gunL.png</file>
+  <startLoc x="1" y="500"/>
+  <frames>1</frames>
+  <frameInterval>11</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+    <chunk>
+      <size>9</size>
+      <distance>200</distance>
+    </chunk>
+</billyGunL>
 
 </GameData>
