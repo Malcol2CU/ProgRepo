@@ -102,6 +102,8 @@ while(1){
 	SDL_RenderCopy(renderer, texture, NULL, &dst);
   }
   SDL_RenderPresent(renderer);
+  engine.makeFrame();
+
 }
 }
 
@@ -181,6 +183,7 @@ SDL_RenderClear(renderer);
      texture = SDL_CreateTextureFromSurface(renderer, names[2]);
      SDL_RenderCopy(renderer, texture, NULL, &words[2]);
   SDL_RenderPresent(renderer);
+engine.makeFrame();
 }
 }
 

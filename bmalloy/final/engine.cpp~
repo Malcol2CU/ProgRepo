@@ -156,7 +156,7 @@ bool Engine::play() {
 		    if ( keystate[SDL_SCANCODE_E] ) {
   			 for(auto a: sprites) a->explode();
 		    }
-		    if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
+		    if (!makeVideo) {
 		      std::cout << "Initiating frame capture" << std::endl;
 		      makeVideo = true;
 		    }

@@ -19,32 +19,25 @@ public:
       RenderHPBar(600, 1, -300,20, health);
       TwoWaySprite::draw();
       bullets.draw();
-      std::cout<< getVelocity() << std::endl;
    }
    virtual bool collidedWith(const Drawable*) const;
    
    void dropHealth(){health -= .25; if (health == 0.0) die();}
    bool isAlive(){return alive;}
-   bool isAttacking(){ return false;}
+   bool isAttacking(){ return attacking;}
    void processKeyState(const Uint8* keystate);
 
 
 private:
    Vector2f initialV;
-<<<<<<< HEAD
    std::vector<Frame *> pAttack, deathFrames;
-=======
-   std::vector<Frame *> idleR, idleL, spinAttack, deathFrames;
->>>>>>> 4473d5221df1cf908bb96f6f95af38acf47dd0b1
-   bool movingRight, alive;	
+
+   bool movingRight, alive, attacking;	
    std::string bulletName;
    BulletPool bullets;
    float minSpeed, health;
-<<<<<<< HEAD
    int who;
-=======
    
->>>>>>> 4473d5221df1cf908bb96f6f95af38acf47dd0b1
    void RenderHPBar(int x, int y, int w, int h, float Percent) const;
    void moveLeft();
    void moveRight();
